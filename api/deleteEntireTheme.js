@@ -25,7 +25,7 @@ const deleteEntireTheme = () => {
               setTimeout(() => {
                 remove(a.key)
                   .then(resolve)
-                  .catch(reject);
+                  .catch(console.error);
               }, i * 333);
             })
         );
