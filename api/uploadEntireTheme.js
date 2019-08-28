@@ -2,7 +2,7 @@ const globby = require("globby");
 const { config } = require("../lib/config");
 const { upload } = require("./upload");
 
-const uploadEntireTheme = () => {
+module.exports = () => {
   globby(config.watch, {
     ignore: config.ignore
   })
@@ -33,8 +33,4 @@ const uploadEntireTheme = () => {
         .catch(console.error);
     })
     .catch(console.error);
-};
-
-module.exports = {
-  uploadEntireTheme
 };

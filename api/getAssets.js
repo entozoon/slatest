@@ -1,8 +1,8 @@
 const fetch = require("node-fetch");
 const { config } = require("../lib/config");
-const { apiUrlAssets } = require("./apiUrlAssets");
+const apiUrlAssets = require("./apiUrlAssets");
 
-const getAssets = () =>
+module.exports = () =>
   new Promise((resolve, reject) => {
     fetch(apiUrlAssets, {
       method: "GET",
@@ -14,7 +14,7 @@ const getAssets = () =>
     })
       .then(r => {
         if (r.status == 404) {
-          let errorText = r.statusText;
+          let err orText = r.statusText;
           return reject(`[ERROR] ${errorText}`);
         }
         return r.json();
@@ -24,7 +24,3 @@ const getAssets = () =>
       })
       .catch(reject);
   });
-
-module.exports = {
-  getAssets
-};

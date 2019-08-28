@@ -1,10 +1,10 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
 const { config } = require("../lib/config");
-const { apiUrlAssets } = require("./apiUrlAssets");
+const apiUrlAssets = require("./apiUrlAssets");
 const { assetKey } = require("../lib/utils");
 
-const upload = filepath =>
+module.exports = filepath =>
   new Promise((resolve, reject) => {
     fetch(apiUrlAssets, {
       method: "PUT",
@@ -43,7 +43,3 @@ const upload = filepath =>
       })
       .catch(reject);
   });
-
-module.exports = {
-  upload
-};
