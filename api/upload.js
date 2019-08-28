@@ -23,7 +23,7 @@ const upload = filepath =>
       })
     })
       .then(r => {
-        // Reject if it borks straight away
+        // R eject if it borks straight away
         if (!r.status || r.status != 200) {
           let errorText = r.statusText;
           if (r.status == 404) {

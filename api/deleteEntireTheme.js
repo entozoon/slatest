@@ -20,7 +20,7 @@ const deleteEntireTheme = () => {
 
         const deleteAssetsPromises = assets.map(
           (a, i) =>
-            new Promise((resolve, reject) => {
+            new Promise(resolve => {
               // Max 4 request/s so have a cheeky set of timeouts to pace it (#KISS)
               setTimeout(() => {
                 remove(a.key)

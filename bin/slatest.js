@@ -1,5 +1,6 @@
 const options = require("command-line-args")([
-  { name: "delete-entire-theme", alias: "d", type: Boolean }
+  { name: "delete-entire-theme", alias: "d", type: Boolean },
+  { name: "upload-entire-theme", alias: "u", type: Boolean }
 ]);
 const chokidar = require("chokidar");
 const browserSync = require("browser-sync");
@@ -8,6 +9,7 @@ const { forwardSlashes, cwd } = require("../lib/utils");
 const { upload } = require("../api/upload");
 const { remove } = require("../api/remove");
 const { deleteEntireTheme } = require("../api/deleteEntireTheme");
+const { uploadEntireTheme } = require("../api/uploadEntireTheme");
 
 // Catch init from wrong dir
 if (cwd.includes("node_modules")) {
@@ -19,6 +21,8 @@ if (cwd.includes("node_modules")) {
 // Handle CLI arguments, if any
 if (options["delete-entire-theme"]) {
   deleteEntireTheme();
+} else if (options["upload-entire-theme"]) {
+  uploadEntireTheme();
 } else {
   // Local serve
   browserSync.init({
