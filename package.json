@@ -1,0 +1,16 @@
+{
+  "name": "slatest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sync.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browser-sync": "^2.26.7",
+    "chokidar": "^3.0.2",
+    "node-fetch": "^2.6.0"
+  }
+}
