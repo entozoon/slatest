@@ -1,9 +1,19 @@
 const chokidar = require("chokidar");
 const fetch = require("node-fetch");
 const fs = require("fs");
-var browserSync = require("browser-sync");
+const browserSync = require("browser-sync");
 
-const config = {};
+const cwd = process.cwd();
+
+console.log("---");
+console.log(cwd);
+console.log("---");
+
+throw new Error("die");
+
+require("path").join(cwd, "config.json");
+console.log(config, cwd);
+
 const apiUrl = `https://${config.store}/admin/themes/${config.themeId}/assets.json`;
 
 const forwardSlashes = string =>
