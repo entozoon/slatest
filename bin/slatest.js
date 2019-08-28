@@ -3,6 +3,7 @@ const browserSync = require("browser-sync");
 const { config } = require("../lib/config");
 const { forwardSlashes, cwd } = require("../lib/utils");
 const { upload } = require("../lib/upload");
+const { remove } = require("../lib/remove");
 
 // Catch init from wrong dir
 if (cwd.includes("node_modules")) {
@@ -10,10 +11,6 @@ if (cwd.includes("node_modules")) {
     "Use from project directory, not directly within node_modules"
   );
 }
-
-const remove = filepath => {
-  console.log("no remove function yet");
-};
 
 const getAssets = () => {
   fetch(apiUrlAssets, {
@@ -62,7 +59,7 @@ chokidar
     } else if (event === "change") {
       upload(path).catch(console.error);
     } else if (event === "unlink") {
-      remove(path);
+      remove(path).catch(console.error);
     } else {
       console.log(
         "Currently no handler for",
