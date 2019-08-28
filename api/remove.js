@@ -15,10 +15,11 @@ const remove = filepath =>
       }
     })
       .then(r => {
-        console.log(r);
         if (!r.status || r.status != 200) {
           let errorText = r.statusText;
-          return reject(`[ERROR] ${errorText}`);
+          return reject(
+            `[ERROR] ${errorText} when deleting: ${assetKey(filepath)}`
+          );
         }
         console.log("[deleted]", filepath);
         resolve(r);
