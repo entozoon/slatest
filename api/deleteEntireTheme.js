@@ -36,7 +36,7 @@ const deleteEntireTheme = () => {
           .catch(console.error);
       })
       .catch(console.error);
-  }, 1000);
+  }, 10000);
 };
 
 module.exports = {

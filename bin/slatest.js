@@ -22,12 +22,12 @@ if (options["delete-entire-theme"]) {
 } else {
   // Local serve
   browserSync.init({
-    proxy: `https://${config.store}`
-    // https: true
+    proxy: `https://${config.store}`,
+    // https: true // moot, as is infered from proxy
+    reloadDelay: 800, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
+    // injectChanges: false
+    logLevel: "info"
   });
-
-  console.log(config.watch);
-  console.log(cwd);
 
   chokidar
     .watch(config.watch, {
@@ -39,18 +39,21 @@ if (options["delete-entire-theme"]) {
       path = forwardSlashes(path);
       console.log(`[${event}]`, path);
 
-      if (event === "add" || event === "change") {
-        upload(path).catch(console.error);
-      } else if (event === "change") {
-        upload(path).catch(console.error);
-      } else if (event === "unlink") {
-        remove(path).catch(console.error);
-      } else {
-        console.log(
-          "Currently no handler for",
-          event,
-          "events, but don't worry about it."
-        );
+      switch (event) {
+        case "add":
+        case "change":
+          upload(path)
+            .catch(console.error)
+            .then(browserSync.reload); // <- Could target different filetypes depending on the event..
+          break;
+        case "unlink":
+          remove(path).catch(console.error);
+          break;
+        case "default":
+          console.log(
+            `Currently no handler for ${event} events, but don't worry about it.`
+          );
+          break;
       }
     });
 }
