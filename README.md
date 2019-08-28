@@ -8,10 +8,10 @@ Well, [Slate](https://github.com/Shopify/slate/) is Shopify's toolkit but [absur
 
 Aaaanyways.. TL;DR we need various simple features for a productive workflow:
 
-- Browser reloading (HMR style for CSS changes)
-- SCSS compilation
-- ES6 JS compilation
-- Template and asset sync with Shopify
+- ✔ Template and asset sync with Shopify
+- ✔ Live reloading (HMR style refresh through a local proxy)
+- .SCSS -> .CSS compilation
+- .ES6 -> JS compilation
 
 ## Usage
 
@@ -25,7 +25,7 @@ Create a `slatest.config.json` file in your project root along the lines of:
   "appPassword": "66666666666666666666666666666666",
   "store": "my-store-name.myshopify.com",
   "watch": ["**/*.liquid", "assets/**"],
-  "ignore": ["assets-backup", "node_modules"]
+  "ignore": ["node_modules/**", "assets/**.scss", "assets/**.es6"]
 }
 ```
 
@@ -35,7 +35,16 @@ Add yourself some `package.json` scripts such as:
 
 ```json
     "start": "slatest"
-    "delete-entire-theme": "slatest --wipe"
+    "delete-entire-theme": "slatest --delete-entire-theme"
+    "upload-entire-theme": "slatest --upload-entire-theme"
 ```
 
 And fire it up!
+
+    npm start
+
+## Structure
+
+Your directory wants typical Shopify theme directories such as layout, templates, sections, snippets, assets, ... etc. `.scss` files get compiled to `.css` which are, in turn, uploaded. Similarly, `.es6` to `.js`.
+
+If you'd like to **see an example project**, hit me up with an issue and I'll make one.

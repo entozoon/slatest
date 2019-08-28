@@ -10,6 +10,7 @@ const { upload } = require("../api/upload");
 const { remove } = require("../api/remove");
 const { deleteEntireTheme } = require("../api/deleteEntireTheme");
 const { uploadEntireTheme } = require("../api/uploadEntireTheme");
+const globToRegExp = require("glob-to-regexp");
 
 // Catch init from wrong dir
 if (cwd.includes("node_modules")) {
@@ -17,6 +18,11 @@ if (cwd.includes("node_modules")) {
     "Use from project directory, not directly within node_modules"
   );
 }
+
+// let test = "{node_modules/**,assets/**.scss}";
+// let string = "assets/something/u/d/dwa/dw/ay.scss";
+// console.log(test, string, globToRegExp(test, { extended: true }).test(string));
+// // true is ignore
 
 // Handle CLI arguments, if any
 if (options["delete-entire-theme"]) {
@@ -35,14 +41,19 @@ if (options["delete-entire-theme"]) {
 
   chokidar
     .watch(config.watch, {
-      // https://github.com/paulmillr/chokidar/issues/773#issuecomment-504778962
-      ignored: path => config.ignore.some(s => path.includes(s)),
+      ignored: path => {
+        // https://github.com/paulmillr/chokidar/issues/773#issuecomment-504778962
+        // return config.ignore.some(s => path.includes(s))
+        // https://github.com/fitzgen/glob-to-regexp#usage
+        return globToRegExp(`{${config.ignore.join(",")}}`, {
+          extended: true
+        }).test(path);
+      },
       ignoreInitial: true
     })
     .on("all", (event, path) => {
       path = forwardSlashes(path);
       console.log(`[${event}]`, path);
-
       switch (event) {
         case "add":
         case "change":
