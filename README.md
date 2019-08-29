@@ -4,14 +4,16 @@
 
 ## Why?
 
-Well, [Slate](https://github.com/Shopify/slate/) is Shopify's toolkit but [absurdly discontinued](https://github.com/Shopify/slate/issues/1020), and [Slater](https://github.com/the-couch/slater) is a proposed alternative - but not nearly as stable as is made out. For example, it [doesn't work on Windows](https://github.com/the-couch/slater/issues/11) and I've [made efforts](https://github.com/the-couch/slater/pull/63) to repair it but it might be a lost cause and the monorepo structure is an absolute nightmare to work with, in my opinion, such as how you could never npm install a fork to test it.
+Well, [Slate](https://github.com/Shopify/slate/) is Shopify's toolkit but [absurdly discontinued](https://github.com/Shopify/slate/issues/1020), and [Slater](https://github.com/the-couch/slater) is a proposed alternative - but not nearly as stable as is made out. For example, it [doesn't work on Windows](https://github.com/the-couch/slater/issues/11) and I've [made efforts](https://github.com/the-couch/slater/pull/63) to repair it but it might be a lost cause. Also the monorepo structure is an absolute nightmare to work with, in my opinion, such as how you could never npm install a fork to test it.
 
 Aaaanyways.. TL;DR we need various simple features for a productive workflow:
 
 - ✔ Template and asset sync with Shopify
 - ✔ Live reloading (HMR style refresh through a local proxy)
-- .SCSS -> .CSS compilation
-- .ES6 -> JS compilation
+- ✔ .SCSS -> .CSS compilation
+- ✔ .ES6 -> JS compilation
+- ✔ Wipe the entire theme's assets
+- ✔ Upload an entire theme
 
 ## Usage
 
@@ -49,6 +51,6 @@ You might want to `.gitignore` your `assets/*.compiled.*` files in your project,
 
 ## Structure
 
-Your directory wants typical Shopify theme directories such as layout, templates, sections, snippets, assets, ... etc. `.scss` files get compiled to `.css` which are, in turn, uploaded. Similarly, `.es6` to `.js`.
+Your directory wants typical Shopify theme directories such as layout, templates, sections, snippets, assets, ... etc. an `assets/app.scss` file gets compiled to `app.compiled.css` which is, in turn, uploaded. Similarly, `assets/app.es6` to `app.compiled.js`.
 
 If you'd like to **see an example project**, hit me up with an issue and I'll make one.

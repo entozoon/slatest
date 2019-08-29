@@ -1,6 +1,6 @@
 {
   "name": "slatest",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Shopify theme development toolkit",
   "main": "./bin/slatest.js",
   "bin": {
@@ -10,6 +10,10 @@
     "dev": "cd ../../ && node node_modules/slatest/bin/slatest"
   },
   "author": "MichaelCook.tech",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/entozoon/slatest.git"
+  },
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.5.5",
