@@ -31,7 +31,7 @@ module.exports = filepath =>
             errorText =
               "Couldn't find appropriate place within Shopify. Is your directory definitely one of these:\nlayout, templates, sections, snippets, assets, config, locales ?";
           }
-          return reject(`[ERROR] ${errorText}`);
+          return reject(`[ERROR] ${errorText}: ${filepath}`);
         }
         return r.json();
       })
