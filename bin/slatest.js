@@ -27,67 +27,66 @@ if (options["delete-entire-theme"]) {
 } else if (options["upload-entire-theme"]) {
   uploadEntireTheme();
 } else {
-  // // Local serve
-  // browserSync.init({
-  //   proxy: `https://${config.store}`,
-  //   // https: true // moot, as is infered from proxy
-  //   reloadDelay: 800, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
-  //   // injectChanges: false
-  //   logLevel: "info"
-  // });
+  // Local serve
+  browserSync.init({
+    proxy: `https://${config.store}`,
+    // https: true // moot, as is infered from proxy
+    reloadDelay: 800, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
+    // injectChanges: false
+    logLevel: "info"
+  });
 
   // Webpack
   const webpackWatching = webpack(webpackConfig).watch(
     {
       // Example watchOptions
-      aggregateTimeout: 300,
-      poll: undefined
+      aggregateTimeout: 200,
+      poll: false
     },
     (err, stats) => {
-      // Stats Object
-      // Print watch/build result here...
       if (err) console.error(err);
-
-      console.log(
-        stats.toString({
-          chunks: false, // Makes the build much quieter
-          colors: true // Shows colors in the console
-        })
-      );
+      if (stats.hasErrors()) {
+        console.error(
+          stats.toString({
+            chunks: false,
+            colors: true
+          })
+        );
+      }
     }
   );
 
-  // // Watch
-  // chokidar
-  //   .watch(config.watch, {
-  //     ignored: path => {
-  //       // https://github.com/paulmillr/chokidar/issues/773#issuecomment-504778962
-  //       // return config.ignore.some(s => path.includes(s))
-  //       // https://github.com/fitzgen/glob-to-regexp#usage
-  //       return globToRegExp(`{${config.ignore.join(",")}}`, {
-  //         extended: true
-  //       }).test(path);
-  //     },
-  //     ignoreInitial: true
-  //   })
-  //   .on("all", (event, path) => {
-  //     path = forwardSlashes(path);
-  //     console.log(`[${event}]`, path);
-  //     switch (event) {
-  //       case "add":
-  //       case "change":
-  //         upload(path)
-  //           .catch(console.error)
-  //           .then(browserSync.reload); // <- Could target different filetypes depending on the event..
-  //         break;
-  //       case "unlink":
-  //         remove(path).catch(console.error);
-  //         break;
-  //       case "default":
-  //         console.log(
-  //           `Currently no handler for ${event} events, but don't worry about it.`
-  //         );
-  //         break;
-  //     }
-  //   });
+  // Watch
+  chokidar
+    .watch(config.watch, {
+      ignored: path => {
+        // https://github.com/paulmillr/chokidar/issues/773#issuecomment-504778962
+        // return config.ignore.some(s => path.includes(s))
+        // https://github.com/fitzgen/glob-to-regexp#usage
+        return globToRegExp(`{${config.ignore.join(",")}}`, {
+          extended: true
+        }).test(path);
+      },
+      ignoreInitial: true
+    })
+    .on("all", (event, path) => {
+      path = forwardSlashes(path);
+      console.log(`[${event}]`, path);
+      switch (event) {
+        case "add":
+        case "change":
+          upload(path)
+            .catch(console.error)
+            .then(browserSync.reload); // <- Could target different filetypes depending on the event..
+          break;
+        case "unlink":
+          remove(path).catch(console.error);
+          break;
+        case "default":
+          console.log(
+            `Currently no handler for ${event} events, but don't worry about it.`
+          );
+          break;
+      }
+    });
 }

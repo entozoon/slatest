@@ -14,7 +14,10 @@ entryPaths = entryPaths.filter(e => fs.existsSync(e));
 module.exports = {
   mode: "production",
   target: "node",
-  entry: entryPaths,
+  entry: {
+    // Again, probably shouldn't be forcing to app.compiled.* but yeah
+    "app.compiled": entryPaths
+  },
   resolve: {
     modules: [`node_modules`, `assets`],
     extensions: [`.es6`]
@@ -31,7 +34,14 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
-          `postcss-loader`,
+          {
+            loader: "postcss-loader",
+            options: {
+              config: {
+                path: __dirname
+              }
+            }
+          },
           "sass-loader"
         ]
       },

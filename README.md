@@ -45,7 +45,7 @@ And fire it up!
 
 ## Ignore
 
-You might want to `.gitignore` your `.css` and `.js` files in the assets dir of your project, as they're likely being compiled. Just a suggestion, to avoid merge conflicts with your fellow devfellows.
+You might want to `.gitignore` your `assets/*.compiled.*` files in your project, as they're likely being compiled. Just a suggestion, to avoid merge conflicts with your fellow devfellows.
 
 ## Structure
 
