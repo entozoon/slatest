@@ -1,6 +1,6 @@
 const globby = require("globby");
 const { config } = require("../lib/config");
-const { upload } = require("./upload");
+const upload = require("./upload");
 
 module.exports = () => {
   globby(config.watch, {
