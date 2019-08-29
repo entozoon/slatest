@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const fs = require("fs");
 const { config } = require("../lib/config");
 const apiUrlAssets = require("./apiUrlAssets");
-const { assetKey } = require("../lib/utils");
+const { success, assetKey } = require("../lib/utils");
 
 module.exports = filepath =>
   new Promise((resolve, reject) => {
@@ -23,22 +23,27 @@ module.exports = filepath =>
       })
     })
       .then(r => {
-        // R eject if it borks straight away
-        if (!r.status || r.status != 200) {
+        // console.log("r.status", r.status);
+        // console.log("r.headers", r.headers.get("content-type"));
+        // Reject if it borks straight away
+        if (!r.status) {
+          // 200 good, 422 bad, but provides json errors..
           let errorText = r.statusText;
           if (r.status == 404) {
             // This should be a proper dir check really..
             errorText =
               "Couldn't find appropriate place within Shopify. Is your directory definitely one of these:\nlayout, templates, sections, snippets, assets, config, locales ?";
           }
-          return reject(`[ERROR] ${errorText}: ${filepath}`);
+          return reject(`[ERROR] ${filepath} : ${errorText}`);
         }
         return r.json();
       })
       .then(r => {
-        console.log("[uploaded]", filepath);
-        // Reject if there's a more shopify-y error, such as missing liquid tags
-        if (r.errors) return reject(r.errors);
+        // Reject if there's a more shopify-y error, such as missing liquid tags or schema problems
+        if (r.errors) {
+          return reject(`\n[ERROR] ${filepath} :\n${JSON.stringify(r.errors)}`);
+        }
+        success("[uploaded]", filepath);
         return resolve(r);
       })
       .catch(reject);

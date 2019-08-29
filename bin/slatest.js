@@ -6,7 +6,7 @@ const chokidar = require("chokidar");
 const browserSync = require("browser-sync");
 const webpack = require("webpack");
 const { config } = require("../lib/config");
-const { forwardSlashes, cwd } = require("../lib/utils");
+const { forwardSlashes, cwd, error } = require("../lib/utils");
 const upload = require("../api/upload");
 const remove = require("../api/remove");
 const deleteEntireTheme = require("../api/deleteEntireTheme");
@@ -44,9 +44,9 @@ if (options["delete-entire-theme"]) {
       poll: false
     },
     (err, stats) => {
-      if (err) console.error(err);
+      if (err) error(err);
       if (stats.hasErrors()) {
-        console.error(
+        error(
           stats.toString({
             chunks: false,
             colors: true
@@ -76,11 +76,11 @@ if (options["delete-entire-theme"]) {
         case "add":
         case "change":
           upload(path)
-            .catch(console.error)
+            .catch(error)
             .then(browserSync.reload); // <- Could target different filetypes depending on the event..
           break;
         case "unlink":
-          remove(path).catch(console.error);
+          remove(path).catch(error);
           break;
         case "default":
           console.log(

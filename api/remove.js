@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const fs = require("fs");
 const { config } = require("../lib/config");
 const apiUrlAssets = require("./apiUrlAssets");
-const { assetKey } = require("../lib/utils");
+const { success, assetKey } = require("../lib/utils");
 
 module.exports = filepath =>
   new Promise((resolve, reject) => {
@@ -21,7 +21,7 @@ module.exports = filepath =>
             `[ERROR] ${errorText} when deleting: ${assetKey(filepath)}`
           );
         }
-        console.log("[deleted]", filepath);
+        success("[deleted]", filepath);
         resolve(r);
       })
       .catch(reject);

@@ -1,5 +1,6 @@
 const { getAssets } = require("./getAssets");
 const { remove } = require("./remove");
+const { success, error } = require("../lib/utils");
 
 module.exports = () => {
   console.log(
@@ -25,16 +26,16 @@ module.exports = () => {
               setTimeout(() => {
                 remove(a.key)
                   .then(resolve)
-                  .catch(console.error);
+                  .catch(error);
               }, i * 333);
             })
         );
         Promise.all(deleteAssetsPromises)
           .then(() => {
-            console.log("All done!");
+            success("All done!");
           })
-          .catch(console.error);
+          .catch(error);
       })
-      .catch(console.error);
+      .catch(error);
   }, 10000);
 };

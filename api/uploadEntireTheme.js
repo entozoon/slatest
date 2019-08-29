@@ -1,6 +1,7 @@
 const globby = require("globby");
 const { config } = require("../lib/config");
 const upload = require("./upload");
+const { success, error } = require("../lib/utils");
 
 module.exports = () => {
   globby(config.watch, {
@@ -22,15 +23,15 @@ module.exports = () => {
             setTimeout(() => {
               upload(a)
                 .then(resolve)
-                .catch(console.error);
+                .catch(error);
             }, i * 333);
           })
       );
       Promise.all(uploadAssetsPromises)
         .then(() => {
-          console.log("All done!");
+          success("All done!");
         })
-        .catch(console.error);
+        .catch(error);
     })
-    .catch(console.error);
+    .catch(error);
 };
