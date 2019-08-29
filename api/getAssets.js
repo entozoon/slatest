@@ -14,7 +14,7 @@ module.exports = () =>
     })
       .then(r => {
         if (r.status == 404) {
-          let err orText = r.statusText;
+          let errorText = r.statusText;
           return reject(`[ERROR] ${errorText}`);
         }
         return r.json();

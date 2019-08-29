@@ -43,6 +43,10 @@ And fire it up!
 
     npm start
 
+## Ignore
+
+You might want to `.gitignore` your `.css` and `.js` files in the assets dir of your project, as they're likely being compiled. Just a suggestion, to avoid merge conflicts with your fellow devfellows.
+
 ## Structure
 
 Your directory wants typical Shopify theme directories such as layout, templates, sections, snippets, assets, ... etc. `.scss` files get compiled to `.css` which are, in turn, uploaded. Similarly, `.es6` to `.js`.
