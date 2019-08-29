@@ -37,7 +37,7 @@ if (options["delete-entire-theme"]) {
   });
 
   // Webpack
-  const webpackWatching = webpack(webpackConfig).watch(
+  webpack(webpackConfig).watch(
     {
       // Example watchOptions
       aggregateTimeout: 200,
