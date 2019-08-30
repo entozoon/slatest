@@ -5,7 +5,7 @@ const { cwd } = require("./lib/utils");
 
 // Our to-be-compiled entry paths
 // (should pipe these in from slatest.config.json and, well tbh, object merge them all with defaults)
-let entryPaths = ["./assets/app.scss", "./assets/app.es6"];
+let entryPaths = ["./src/scss/app.scss", "./src/es6/app.es6"];
 
 // Resolve paths properly, then strip out any that don't yet exist (as webpack bitches out)
 entryPaths = entryPaths.map(e => path.resolve(cwd, e));

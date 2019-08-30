@@ -14,6 +14,7 @@ Aaaanyways.. TL;DR we need various simple features for a productive workflow:
 - ✔ .ES6 -> JS compilation
 - ✔ Wipe the entire theme's assets
 - ✔ Upload an entire theme
+- ❌ Template (this project only contains the tools for development, not a theme)
 
 ## Usage
 
@@ -27,12 +28,7 @@ Create a `slatest.config.json` file in your project root along the lines of:
   "appPassword": "66666666666666666666666666666666",
   "store": "my-store-name.myshopify.com",
   "watch": ["**/*.liquid", "**/*.json", "assets/**/*"],
-  "ignore": [
-    "node_modules/**",
-    "config/settings_data.json",
-    "assets/**.scss",
-    "assets/**.es6"
-  ]
+  "ignore": ["node_modules/**", "config/settings_data.json"]
 }
 ```
 
@@ -56,6 +52,19 @@ You might want to `.gitignore` your `assets/*.compiled.*` files in your project,
 
 ## Structure
 
-Your directory wants typical Shopify theme directories such as layout, templates, sections, snippets, assets, ... etc. an `assets/app.scss` file gets compiled to `app.compiled.css` which is, in turn, uploaded. Similarly, `assets/app.es6` to `app.compiled.js`.
+Your directory wants typical Shopify theme directories and an `/src/scss/app.scss` file gets compiled to `/assets/app.compiled.css` which is, in turn, uploaded. Similarly, with `/src/es6/app.es6`.
+
+    ┌──assets
+    ├──config
+    ├──layout
+    ├──locales
+    ├──sections
+    ├──snippets
+    ├──src
+    │  ├──es6
+    │  │    app.es6
+    │  └──scss
+    │       app.scss
+    └──templates
 
 If you'd like to **see an example project**, hit me up with an issue and I'll make one.
