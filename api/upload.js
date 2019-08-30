@@ -4,8 +4,23 @@ const { config } = require("../lib/config");
 const apiUrlAssets = require("./apiUrlAssets");
 const { success, assetKey } = require("../lib/utils");
 
-const uploadFileContents = (filepath, attachment, resolve, reject) => {
-  const key = assetKey(filepath);
+const uploadFileContents = (filepath, contents, resolve, reject) => {
+  let asset = {
+    key: assetKey(filepath)
+  };
+  // There's no information really about whether it should use attachment,
+  // with base64 encoded data, or just value with a string as suggested for .liquid
+  // Attachment works for both though, and we have contents readily base64 encoded so let's use it
+  // https://help.shopify.com/en/api/reference/online-store/asset
+  // const filetype = filepath.split(".").pop();
+  // if (filetype === "liquid") {
+  //   asset.value = contents;
+  // } else {
+  //   asset.attachment = new Buffer(contents).toString("base64");
+  // }
+  // Just always using the base64 contents straight from readFile(..., 'base64') :
+  asset.attachment = contents;
+
   return fetch(apiUrlAssets, {
     method: "PUT",
     headers: {
@@ -13,12 +28,7 @@ const uploadFileContents = (filepath, attachment, resolve, reject) => {
       "Content-Type": "application/json",
       Accept: "application/json"
     },
-    body: JSON.stringify({
-      asset: {
-        key,
-        attachment
-      }
-    })
+    body: JSON.stringify({ asset })
   })
     .then(r => {
       // console.log("r.status", r.status);
@@ -48,23 +58,19 @@ const uploadFileContents = (filepath, attachment, resolve, reject) => {
 };
 module.exports = filepath =>
   new Promise((resolve, reject) => {
-    // Read the file, getting its contents as a base64 encoded string
-    fs.readFile(filepath, "utf8", (err, contents) => {
+    // Read the file, and upload the contents
+    fs.readFile(filepath, "base64", (err, contents) => {
       if (err) reject(`[ERROR] ${filepath} : ${err}`);
-      const attachment = Buffer.from(contents, "utf-8").toString("base64");
       // Upload the file if has contents
-      if (attachment.length) {
-        uploadFileContents(filepath, attachment, resolve, reject);
+      if (contents.length) {
+        uploadFileContents(filepath, contents, resolve, reject);
       }
       // If the file is empty (which happens when read fails, intermittently), or a legit empty file,
       // chill for a moment then have another go. Probably a neater way but at least it's non-blocking
       else {
         setTimeout(() => {
-          fs.readFile(filepath, "utf8", (err, contents) => {
-            const attachment = Buffer.from(contents, "utf-8").toString(
-              "base64"
-            );
-            uploadFileContents(filepath, attachment, resolve, reject);
+          fs.readFile(filepath, "base64", (err, contents) => {
+            uploadFileContents(filepath, contents, resolve, reject);
           });
         }, 500);
       }
