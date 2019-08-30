@@ -26,8 +26,13 @@ Create a `slatest.config.json` file in your project root along the lines of:
   "themeId": "11111111111",
   "appPassword": "66666666666666666666666666666666",
   "store": "my-store-name.myshopify.com",
-  "watch": ["**/*.liquid", "assets/**"],
-  "ignore": ["node_modules/**", "assets/**.scss", "assets/**.es6"]
+  "watch": ["**/*.liquid", "**/*.json", "assets/**/*"],
+  "ignore": [
+    "node_modules/**",
+    "config/settings_data.json",
+    "assets/**.scss",
+    "assets/**.es6"
+  ]
 }
 ```
 
