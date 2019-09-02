@@ -60,11 +60,16 @@ module.exports = {
       {
         test: /\.jsx$/,
         exclude: /(node_modules)/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-react"]
-          }
+        loader: "babel-loader",
+        options: {
+          babelrc: false,
+          presets: [
+            [
+              "@babel/preset-env",
+              { targets: { browsers: ["> 1%", "ie >= 10"] } }
+            ]
+          ],
+          plugins: ["babel-plugin-syntax-jsx", "inferno"]
         }
       }
     ]
