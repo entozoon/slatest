@@ -55,7 +55,7 @@ module.exports = {
             presets: ["@babel/preset-env"]
           }
         }
-      }
+      },
       // JSX => JS vanilla
       {
         test: /\.jsx$/,
@@ -63,7 +63,7 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['react']
+            presets: ["react"]
           }
         }
       }
