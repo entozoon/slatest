@@ -19,8 +19,8 @@ module.exports = {
     "app.compiled": entryPaths
   },
   resolve: {
-    modules: [`node_modules`, `assets`],
-    extensions: [`.es6`]
+    modules: [path.resolve(cwd, `node_modules`), path.resolve(cwd, `assets`)],
+    extensions: [`.es6`, `.jsx`]
   },
   watch: true,
   output: {
@@ -47,7 +47,7 @@ module.exports = {
       },
       // ES6 => JS vanilla
       {
-        test: /\.es6$/,
+        test: /\.(es6|jsx)$/,
         exclude: /(node_modules)/,
         use: {
           loader: "babel-loader",
