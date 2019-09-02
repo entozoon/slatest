@@ -47,12 +47,23 @@ module.exports = {
       },
       // ES6 => JS vanilla
       {
-        test: /\.(es6|jsx)$/,
+        test: /\.es6$/,
         exclude: /(node_modules)/,
         use: {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env"]
+          }
+        }
+      }
+      // JSX => JS vanilla
+      {
+        test: /\.jsx$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ['react']
           }
         }
       }
