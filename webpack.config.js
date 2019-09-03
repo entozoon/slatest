@@ -49,11 +49,12 @@ module.exports = {
       {
         test: /\.es6$/,
         exclude: /(node_modules)/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"]
-          }
+        loader: "babel-loader",
+        options: {
+          presets: [
+            "@babel/preset-env",
+            { targets: { browsers: ["> 1%", "ie >= 11"] } }
+          ]
         }
       },
       // JSX => JS vanilla
@@ -66,7 +67,7 @@ module.exports = {
           presets: [
             [
               "@babel/preset-env",
-              { targets: { browsers: ["> 1%", "ie >= 10"] } }
+              { targets: { browsers: ["> 1%", "ie >= 11"] } }
             ]
           ],
           plugins: ["babel-plugin-syntax-jsx", "inferno"]

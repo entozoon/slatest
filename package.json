@@ -1,6 +1,6 @@
 {
   "name": "slatest",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "Shopify theme development toolkit",
   "main": "./bin/slatest.js",
   "bin": {
@@ -31,7 +31,6 @@
     "fs-extra": "^8.1.0",
     "glob-to-regexp": "^0.4.1",
     "globby": "^10.0.1",
-    "inferno": "^7.3.1",
     "mini-css-extract-plugin": "^0.8.0",
     "node-fetch": "^2.6.0",
     "node-sass": "^4.12.0",
