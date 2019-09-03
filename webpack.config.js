@@ -19,8 +19,11 @@ module.exports = {
     "app.compiled": entryPaths
   },
   resolve: {
-    modules: [path.resolve(cwd, `node_modules`), path.resolve(cwd, `assets`)],
-    extensions: [`.es6`, `.jsx`]
+    modules: [
+      path.resolve(cwd, `node_modules`),
+      path.resolve(cwd, `assets`)
+    ],
+    extensions: [`.es6`, `.jsx`, ".js"]
   },
   watch: true,
   output: {
@@ -45,9 +48,9 @@ module.exports = {
           "sass-loader"
         ]
       },
-      // ES6 => JS vanilla
+      // ES6/JS => JS vanilla
       {
-        test: /\.es6$/,
+        test: /\.(es6|js)$/,
         exclude: /(node_modules)/,
         loader: "babel-loader",
         options: {
