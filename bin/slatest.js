@@ -22,6 +22,14 @@ if (cwd.includes("node_modules")) {
   );
 }
 
+// Default to live site, unless given a custom config?
+// let proxy = `https://${storeUrl}`;
+// if (options["config"]) {
+//   proxy = `https://${storeUrl}/?key=${config.appPassword}&preview_theme_id=${config.themeId}`;
+// }
+// Actually, for now at least, let's never not be previewin' - as we can't tell if the given theme's been applied or not without querying /admin/api/themes.json
+let proxy = `https://${config.store}/?key=${config.appPassword}&preview_theme_id=${config.themeId}`;
+
 // Handle CLI arguments, if any
 if (options["delete-entire-theme"]) {
   deleteEntireTheme();
@@ -30,7 +38,7 @@ if (options["delete-entire-theme"]) {
 } else {
   // Local serve
   browserSync.init({
-    proxy: `https://${config.store}`,
+    proxy,
     // https: true // moot, as is infered from proxy
     reloadDelay: 800, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
     // injectChanges: false
