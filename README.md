@@ -87,7 +87,15 @@ You can write typical ES6, with imports and whatnot, or even .JSX files with Inf
 
 ## Multiple Developers?
 
-The inherent problem is that, when editing a file, it automatically uploads it to your site. So if multiple people are working on the same files it'll conflict. Particularly with the compiled SCSS/JS, so
-the solution is to ..
+The inherent problem is that, when editing a file, it automatically uploads it to your site. So if multiple people are working on the same _theme_, it'll go haywire.
 
-(Create multiple themes, and have each developer target their own themeId in the config. Admittedly, this approach hasn't yet been tested! Just a hunch from a [friend](https://github.com/chrisfoster78))
+SO, the solution (thanks to a [friend](https://github.com/chrisfoster78)) is to:
+
+- Duplicate your theme in the Shopify admin
+- In `package.json`, add commands with a `config` parameter that'll make it use a custom version of the config file. i.e.
+
+```json
+    "start:jeff": "slatest --config slatest.config.jeff.json",
+```
+
+- Create this `slatest.config.jeff.json` file, changing the `themeId` value to target your duplicated theme
