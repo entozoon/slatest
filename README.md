@@ -18,6 +18,8 @@ Aaaanyways.. TL;DR we need various simple features for a productive workflow:
 
 ## Usage
 
+Here is an [example project](https://github.com/entozoon/slatest-example), to show the installation and a typical directory structure.
+
     npm i slatest
 
 Create a `slatest.config.json` file in your project root along the lines of:
@@ -37,8 +39,8 @@ You will need to create a new theme in the Shopify admin, and get it's ID from t
 Add yourself some `package.json` scripts such as:
 
 ```json
-    "start": "slatest"
-    "delete-entire-theme": "slatest --delete-entire-theme"
+    "start": "slatest",
+    "delete-entire-theme": "slatest --delete-entire-theme",
     "upload-entire-theme": "slatest --upload-entire-theme"
 ```
 
@@ -46,11 +48,23 @@ And fire it up!
 
     npm start
 
-## Ignore
+## Deploying Entire Theme
+
+When you first start a project, you possibly want to dump an entire theme into the project and have it upload. You can do so by running:
+
+    npm run upload-entire-theme
+
+And delete it all, similarly. It's a little intense and takes a while, so I wouldn't recommend doing it on the regular.
+
+## About what are you talking, Willis?
+
+Have a look at the [example project](https://github.com/entozoon/slatest-example).
+
+### Ignore
 
 You might want to `.gitignore` your `assets/*.compiled.*` files in your project, as they're likely being compiled. Just a suggestion, to avoid merge conflicts with your fellow devfellows.
 
-## Structure
+### Structure
 
 Your directory wants typical Shopify theme directories and an `/src/scss/app.scss` file gets compiled to `/assets/app.compiled.css` which is, in turn, uploaded. Similarly, with `/src/es6/app.es6`.
 
@@ -67,4 +81,13 @@ Your directory wants typical Shopify theme directories and an `/src/scss/app.scs
     │       app.scss
     └──templates
 
-If you'd like to **see an example project**, hit me up with an issue and I'll make one.
+### JS
+
+You can write typical ES6, with imports and whatnot, or even .JSX files with Inferno or whatever and it'll be compiled into vanilla JS (IE11+). NB: You'll still need [polyfills](https://polyfill.io/) if you are indeed injecting Reacty stuff while supporting IE.
+
+## Multiple Developers?
+
+The inherent problem is that, when editing a file, it automatically uploads it to your site. So if multiple people are working on the same files it'll conflict. Particularly with the compiled SCSS/JS, so
+the solution is to ..
+
+(Create multiple themes, and have each developer target their own themeId in the config. Admittedly, this approach hasn't yet been tested! Just a hunch from a [friend](https://github.com/chrisfoster78))
