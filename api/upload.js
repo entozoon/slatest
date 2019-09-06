@@ -1,10 +1,8 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
-const { config } = require("../lib/config");
-const apiUrlAssets = require("./apiUrlAssets");
 const { success, assetKey } = require("../lib/utils");
 
-const uploadFileContents = (filepath, contents, resolve, reject) => {
+const uploadFileContents = (config, filepath, contents, resolve, reject) => {
   let asset = {
     key: assetKey(filepath)
   };
@@ -21,6 +19,7 @@ const uploadFileContents = (filepath, contents, resolve, reject) => {
   // Just always using the base64 contents straight from readFile(..., 'base64') :
   asset.attachment = contents;
 
+  const apiUrlAssets = require("./apiUrlAssets")(config);
   return fetch(apiUrlAssets, {
     method: "PUT",
     headers: {
@@ -56,21 +55,22 @@ const uploadFileContents = (filepath, contents, resolve, reject) => {
     })
     .catch(reject);
 };
-module.exports = filepath =>
+
+module.exports = config => filepath =>
   new Promise((resolve, reject) => {
     // Read the file, and upload the contents
     fs.readFile(filepath, "base64", (err, contents) => {
       if (err) reject(`[ERROR] ${filepath} : ${err}`);
       // Upload the file if has contents
       if (contents.length) {
-        uploadFileContents(filepath, contents, resolve, reject);
+        uploadFileContents(config, filepath, contents, resolve, reject);
       }
       // If the file is empty (which happens when read fails, intermittently), or a legit empty file,
       // chill for a moment then have another go. Probably a neater way but at least it's non-blocking
       else {
         setTimeout(() => {
           fs.readFile(filepath, "base64", (err, contents) => {
-            uploadFileContents(filepath, contents, resolve, reject);
+            uploadFileContents(config, filepath, contents, resolve, reject);
           });
         }, 500);
       }

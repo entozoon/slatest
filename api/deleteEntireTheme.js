@@ -1,8 +1,8 @@
-const { getAssets } = require("./getAssets");
-const { remove } = require("./remove");
 const { success, error } = require("../lib/utils");
 
-module.exports = () => {
+module.exports = config => () => {
+  const getAssets = require("./getAssets")(config);
+  const remove = require("./remove")(config);
   console.log(
     "\n\nThis is mad destructive - deleting all templates, assets, scheme, etc in your Shopify theme!\nAre you super duper certain? Ctrl-z out within 10 seconds to stop!\n"
   );

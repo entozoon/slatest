@@ -1,9 +1,8 @@
 const fetch = require("node-fetch");
-const { config } = require("../lib/config");
-const apiUrlAssets = require("./apiUrlAssets");
 
-module.exports = () =>
+module.exports = config => () =>
   new Promise((resolve, reject) => {
+    const apiUrlAssets = require("./apiUrlAssets")(config);
     fetch(apiUrlAssets, {
       method: "GET",
       headers: {

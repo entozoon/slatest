@@ -1,9 +1,8 @@
 const globby = require("globby");
-const { config } = require("../lib/config");
-const upload = require("./upload");
 const { success, error } = require("../lib/utils");
 
-module.exports = () => {
+module.exports = config => () => {
+  const upload = require("./upload")(config);
   globby(config.watch, {
     ignore: config.ignore
   })

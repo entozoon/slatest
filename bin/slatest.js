@@ -1,16 +1,17 @@
 const options = require("command-line-args")([
+  { name: "config", alias: "c", type: String },
   { name: "delete-entire-theme", alias: "d", type: Boolean },
   { name: "upload-entire-theme", alias: "u", type: Boolean }
 ]);
 const chokidar = require("chokidar");
 const browserSync = require("browser-sync");
 const webpack = require("webpack");
-const { config } = require("../lib/config");
+const config = require("../lib/config")(options.config);
 const { forwardSlashes, cwd, error } = require("../lib/utils");
-const upload = require("../api/upload");
-const remove = require("../api/remove");
-const deleteEntireTheme = require("../api/deleteEntireTheme");
-const uploadEntireTheme = require("../api/uploadEntireTheme");
+const upload = require("../api/upload")(config);
+const remove = require("../api/remove")(config);
+const deleteEntireTheme = require("../api/deleteEntireTheme")(config);
+const uploadEntireTheme = require("../api/uploadEntireTheme")(config);
 const globToRegExp = require("glob-to-regexp");
 const webpackConfig = require("../webpack.config.js");
 

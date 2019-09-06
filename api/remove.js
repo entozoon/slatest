@@ -1,11 +1,9 @@
 const fetch = require("node-fetch");
-const fs = require("fs");
-const { config } = require("../lib/config");
-const apiUrlAssets = require("./apiUrlAssets");
 const { success, assetKey } = require("../lib/utils");
 
-module.exports = filepath =>
+module.exports = config => filepath =>
   new Promise((resolve, reject) => {
+    const apiUrlAssets = require("./apiUrlAssets")(config);
     fetch(`${apiUrlAssets}?asset[key]=${assetKey(filepath)}`, {
       method: "DELETE",
       headers: {
