@@ -33,7 +33,8 @@ if (options["delete-entire-theme"]) {
     // https: true // moot, as is infered from proxy
     reloadDelay: 800, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
     // injectChanges: false
-    logLevel: "info"
+    logLevel: "info",
+    port: 3030
   });
 
   // Webpack
