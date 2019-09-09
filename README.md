@@ -56,6 +56,8 @@ When you first start a project, you possibly want to dump an entire theme into t
 
 And delete it all, similarly. It's a little intense and takes a while, so I wouldn't recommend doing it on the regular.
 
+Please note, this will not upload the `settings_data.json` - for safety reasons, as it contains all of your site's customisations. If you really are starting from scratch and want to upload it, find your theme's 'Edit code' button in the Shopify admin and paste the contents manually.
+
 ## About what are you talking, Willis?
 
 Have a look at the [example project](https://github.com/entozoon/slatest-example).
