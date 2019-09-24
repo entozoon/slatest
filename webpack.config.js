@@ -84,8 +84,7 @@ module.exports = {
       },
       // Dummy compilation for README.md - a workaround for when no src entry points exist
       {
-        test: /\.md$/,
-        // test: path.resolve(__dirname, "README.md"),
+        test: path.resolve(__dirname, "README.md"),
         use: "null-loader"
       }
     ]
