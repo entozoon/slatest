@@ -11,18 +11,22 @@ let entryPaths = ["./src/scss/app.scss", "./src/es6/app.es6"];
 entryPaths = entryPaths.map(e => path.resolve(cwd, e));
 entryPaths = entryPaths.filter(e => fs.existsSync(e));
 
+if (entryPaths.length === 0) {
+  // If neither app.scss or app.es6 exist, sack all of webpack off by setting README as a dummy entry point
+  entryPaths = `${__dirname}/README.md`;
+} else {
+  entryPaths = {
+    // Again, probably shouldn't be forcing to app.compiled.* but yeah
+    "app.compiled": entryPaths
+  };
+}
+
 module.exports = {
   mode: "production",
   target: "node",
-  entry: {
-    // Again, probably shouldn't be forcing to app.compiled.* but yeah
-    "app.compiled": entryPaths
-  },
+  entry: entryPaths,
   resolve: {
-    modules: [
-      path.resolve(cwd, `node_modules`),
-      path.resolve(cwd, `assets`)
-    ],
+    modules: [path.resolve(cwd, `node_modules`), path.resolve(cwd, `assets`)],
     extensions: [`.es6`, `.jsx`, ".js"]
   },
   watch: true,
@@ -77,6 +81,12 @@ module.exports = {
           ],
           plugins: ["babel-plugin-syntax-jsx", "inferno"]
         }
+      },
+      // Dummy compilation for README.md - a workaround for when no src entry points exist
+      {
+        test: /\.md$/,
+        // test: path.resolve(__dirname, "README.md"),
+        use: "null-loader"
       }
     ]
   },
