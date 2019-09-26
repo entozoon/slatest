@@ -43,7 +43,17 @@ if (options["delete-entire-theme"]) {
     reloadDelay: 800, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
     // injectChanges: false
     logLevel: "info",
-    port: 3030
+    port: 3030,
+    // Inject magic script into the <head> rather than <body>
+    // https://github.com/BrowserSync/browser-sync/issues/1718
+    snippetOptions: {
+      rule: {
+        match: /<head[^>]*>/i,
+        fn: function(snippet, match) {
+          return match + snippet;
+        }
+      }
+    }
   });
 
   // Webpack
