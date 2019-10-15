@@ -1,7 +1,8 @@
 const options = require("command-line-args")([
   { name: "config", alias: "c", type: String },
   { name: "delete-entire-theme", alias: "d", type: Boolean },
-  { name: "upload-entire-theme", alias: "u", type: Boolean }
+  { name: "upload-entire-theme", alias: "u", type: Boolean },
+  { name: "port", alias: "p", type: Number, defaultOption: 3030 }
 ]);
 const chokidar = require("chokidar");
 const browserSync = require("browser-sync");
@@ -43,13 +44,13 @@ if (options["delete-entire-theme"]) {
     reloadDelay: 800, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
     // injectChanges: false
     logLevel: "info",
-    port: 3030,
+    port: options["port"],
     // Inject magic script into the <head> rather than <body>
     // https://github.com/BrowserSync/browser-sync/issues/1718
     snippetOptions: {
       rule: {
         match: /<head[^>]*>/i,
-        fn: function(snippet, match) {
+        fn: (snippet, match) => {
           return match + snippet;
         }
       }

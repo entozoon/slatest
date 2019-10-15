@@ -30,7 +30,8 @@ Create a `slatest.config.json` file in your project root along the lines of:
   "appPassword": "66666666666666666666666666666666",
   "store": "my-store-name.myshopify.com",
   "watch": ["**/*.liquid", "*/**.json", "assets/*"],
-  "ignore": ["node_modules/**", "config/settings_data.json"]
+  "ignore": ["node_modules/**", "config/settings_data.json"],
+  "port": 3030
 }
 ```
 
