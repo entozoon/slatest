@@ -55,7 +55,8 @@ module.exports = {
       // ES6/JS => JS vanilla
       {
         test: /\.(es6|js)$/,
-        exclude: /(node_modules)/,
+        // Remove node_modules exclusion, so as to allow transpiling of imported ES6 modules (for IE11)
+        // exclude: /(node_modules)/,
         loader: "babel-loader",
         options: {
           presets: [
