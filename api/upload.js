@@ -50,7 +50,7 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
       if (r.errors) {
         return reject(`\n[ERROR] ${filepath} :\n${JSON.stringify(r.errors)}`);
       }
-      success("[uploaded]", filepath);
+      success("[upload]".padEnd(9), filepath);
       return resolve(r);
     })
     .catch(reject);

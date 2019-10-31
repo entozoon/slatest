@@ -7,7 +7,7 @@ const chokidar = require("chokidar");
 const browserSync = require("browser-sync");
 const webpack = require("webpack");
 const config = require("../lib/config")(options.config);
-const { forwardSlashes, cwd, error } = require("../lib/utils");
+const { forwardSlashes, cwd, info, error } = require("../lib/utils");
 const upload = require("../api/upload")(config);
 const remove = require("../api/remove")(config);
 const deleteEntireTheme = require("../api/deleteEntireTheme")(config);
@@ -43,6 +43,7 @@ if (options["delete-entire-theme"]) {
     reloadDelay: 800, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
     // injectChanges: false
     logLevel: "info",
+    logPrefix: "refresh",
     port: config.port ? config.port : 3030,
     // Inject magic script into the <head> rather than <body>
     // https://github.com/BrowserSync/browser-sync/issues/1718
@@ -56,14 +57,16 @@ if (options["delete-entire-theme"]) {
     }
   });
 
-  // Webpack
-  webpack(webpackConfig).watch(
+  // Webpack - compile SCSS/JS/etc on change
+  const _webpack = webpack(webpackConfig).watch(
     {
-      // Example watchOptions
-      aggregateTimeout: 200,
+      aggregateTimeout: 500,
       poll: false
     },
     (err, stats) => {
+      // Object.keys(stats.compilation.assets).map(name => {
+      //   console.log(name);
+      // });
       if (err) error(err);
       if (stats.hasErrors()) {
         error(
@@ -76,7 +79,26 @@ if (options["delete-entire-theme"]) {
     }
   );
 
-  // Watch
+  // Watch - file changed notification
+  _webpack.compiler.hooks.watchRun.tapAsync(
+    "changeMessage",
+    (_compiler, done) => {
+      const changedTimes = _compiler.watchFileSystem.watcher.mtimes;
+      const changedFiles = Object.keys(changedTimes)
+        .map(file => `\n  ${file}`)
+        .join("");
+      if (changedFiles.length) {
+        info(
+          `${"[compile]".padEnd(9)} ${forwardSlashes(
+            changedFiles.trim()
+          ).replace(cwd, "")}`
+        );
+      }
+      return done();
+    }
+  );
+
+  // Watch - upload and browser refresh
   chokidar
     .watch(config.watch, {
       ignored: path => {
@@ -91,7 +113,7 @@ if (options["delete-entire-theme"]) {
     })
     .on("all", (event, path) => {
       path = forwardSlashes(path);
-      console.log(`[${event}]`, path);
+      console.log(`[${event}]`.padEnd(9), path);
       switch (event) {
         case "add":
         case "change":
