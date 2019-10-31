@@ -109,7 +109,11 @@ if (options["delete-entire-theme"]) {
           extended: true
         }).test(path);
       },
-      ignoreInitial: true
+      ignoreInitial: true,
+      awaitWriteFinish: {
+        stabilityThreshold: 1000,
+        pollInterval: 100
+      }
     })
     .on("all", (event, path) => {
       path = forwardSlashes(path);
