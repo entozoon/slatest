@@ -52,37 +52,12 @@ module.exports = {
           "sass-loader"
         ]
       },
-      // ES6/JS => JS vanilla
+      // ES6/JS/JSX => JS vanilla
       {
-        test: /\.(es6|js)$/,
+        test: /\.(es6|js|jsx)$/,
         // Remove node_modules exclusion, so as to allow transpiling of imported ES6 modules (for IE11)
         // exclude: /(node_modules)/,
-        loader: "babel-loader",
-        options: {
-          presets: [
-            [
-              "@babel/preset-env",
-              "@babel/plugin-proposal-class-properties",
-              { targets: { browsers: ["> 1%", "ie >= 11"] } }
-            ]
-          ]
-        }
-      },
-      // JSX => JS vanilla
-      {
-        test: /\.jsx$/,
-        exclude: /(node_modules)/,
-        loader: "babel-loader",
-        options: {
-          babelrc: false,
-          presets: [
-            [
-              "@babel/preset-env",
-              { targets: { browsers: ["> 1%", "ie >= 11"] } }
-            ]
-          ],
-          plugins: ["babel-plugin-syntax-jsx", "inferno"]
-        }
+        loader: "babel-loader"
       },
       // Dummy compilation for README.md - a workaround for when no src entry points exist
       {
