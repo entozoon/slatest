@@ -1,0 +1,19 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    [
+      "@babel/preset-react",
+      {
+        "targets": {
+          "browsers": ["> 1%", "ie >= 11"]
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "babel-plugin-syntax-jsx",
+    "inferno",
+    "@babel/plugin-transform-arrow-functions",
+    "@babel/plugin-proposal-class-properties"
+  ]
+}

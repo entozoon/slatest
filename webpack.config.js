@@ -57,7 +57,10 @@ module.exports = {
         test: /\.(es6|js|jsx)$/,
         // Remove node_modules exclusion, so as to allow transpiling of imported ES6 modules (for IE11)
         // exclude: /(node_modules)/,
-        loader: "babel-loader"
+        loader: "babel-loader",
+        options: {
+          configFile: path.resolve(__dirname, `.babelrc`)
+        }
       },
       // Dummy compilation for README.md - a workaround for when no src entry points exist
       {
