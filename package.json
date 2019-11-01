@@ -1,6 +1,6 @@
 {
   "name": "slatest",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "Shopify theme development toolkit",
   "main": "./bin/slatest.js",
   "bin": {
@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "autoprefixer": "^9.6.1",
