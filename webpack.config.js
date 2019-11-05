@@ -57,7 +57,7 @@ module.exports = {
         test: /\.(es6|js|jsx)$/,
         // Ideally we'd want to include node_modules, so as to allow transpiling of imported ES6 modules (for IE11) but it's just. too. slow.
         // Keeping it in for this patch, for compatibility, but then the next minor bump will sack it off.
-        // exclude: /node_modules/,
+        exclude: /node_modules/,
         loader: "babel-loader",
         options: {
           configFile: path.resolve(__dirname, `.babelrc`)
