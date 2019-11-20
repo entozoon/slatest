@@ -14,7 +14,7 @@ module.exports = config => () => {
           assets.length
         } assets. This will take approximately ${Math.ceil(
           (assets.length * 333) / 1000 / 60
-        )} minutes..`
+        )} minutes..\n\nPlease note, it will not upload theme settings and data schema!`
       );
       const uploadAssetsPromises = assets.map(
         (a, i) =>
