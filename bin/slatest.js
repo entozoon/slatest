@@ -13,7 +13,7 @@ const remove = require("../api/remove")(config);
 const deleteEntireTheme = require("../api/deleteEntireTheme")(config);
 const uploadEntireTheme = require("../api/uploadEntireTheme")(config);
 const globToRegExp = require("glob-to-regexp");
-const webpackConfig = require("../webpack.config.js");
+const webpackConfig = require("../webpack.config.js")(config);
 
 // Catch init from wrong dir
 if (cwd.includes("node_modules")) {

@@ -102,3 +102,14 @@ SO, the solution (thanks to a [friend](https://github.com/chrisfoster78)) is to:
 ```
 
 - Create this `slatest.config.jeff.json` file, changing the `themeId` value to target your duplicated theme
+
+## Different compilation entry points?
+
+If you want to compile different entry points than `app.scss` and `app.js`, add an `entryPaths` value to your `slatest.config.json` along the lines of:
+
+```json
+  "entryPaths": {
+    "app.compiled": ["./src/scss/app.scss", "./src/es6/app.es6"],
+    "extra-thing.compiled": ["./src/scss/extra-thing.scss"]
+  }
+```
