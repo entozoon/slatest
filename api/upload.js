@@ -20,40 +20,44 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
   asset.attachment = contents;
 
   const apiUrlAssets = require("./apiUrlAssets")(config);
-  return fetch(apiUrlAssets, {
-    method: "PUT",
-    headers: {
-      "X-Shopify-Access-Token": config.appPassword,
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify({ asset })
-  })
-    .then(r => {
-      // console.log("r.status", r.status);
-      // console.log("r.headers", r.headers.get("content-type"));
-      // Reject if it borks straight away
-      if (!r.status) {
-        // 200 good, 422 bad, but provides json errors..
-        let errorText = r.statusText;
-        if (r.status == 404) {
-          // This should be a proper dir check really..
-          errorText =
-            "Couldn't find appropriate place within Shopify. Is your directory definitely one of these:\nlayout, templates, sections, snippets, assets, config, locales ?";
+  return (
+    fetch(apiUrlAssets, {
+      method: "PUT",
+      headers: {
+        "X-Shopify-Access-Token": config.appPassword,
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({ asset })
+    })
+      .then(r => {
+        // console.log("r.status", r.status);
+        // console.log("r.headers", r.headers.get("content-type"));
+        // Reject if it borks straight away
+        if (!r.status) {
+          // 200 good, 422 bad, but provides json errors..
+          let errorText = r.statusText;
+          if (r.status == 404) {
+            // This should be a proper dir check really..
+            errorText =
+              "Couldn't find appropriate place within Shopify. Is your directory definitely one of these:\nlayout, templates, sections, snippets, assets, config, locales ?";
+          }
+          return reject(`[ERROR] ${filepath} : ${errorText}`);
         }
-        return reject(`[ERROR] ${filepath} : ${errorText}`);
-      }
-      return r.json();
-    })
-    .then(r => {
-      // Reject if there's a more shopify-y error, such as missing liquid tags or schema problems
-      if (r.errors) {
-        return reject(`\n[ERROR] ${filepath} :\n${JSON.stringify(r.errors)}`);
-      }
-      success("[upload]".padEnd(9), filepath);
-      return resolve(r);
-    })
-    .catch(reject);
+        return r.json();
+      })
+      // Catch upload errors, e.g. wrong URL
+      .catch(reject)
+      .then(r => {
+        // Reject if there's a more shopify-y error, such as missing liquid tags or schema problems
+        if (r.errors) {
+          return reject(`\n[ERROR] ${filepath} :\n${JSON.stringify(r.errors)}`);
+        }
+        success("[upload]".padEnd(9), filepath);
+        return resolve(r);
+      })
+      .catch(reject)
+  );
 };
 
 module.exports = config => filepath =>

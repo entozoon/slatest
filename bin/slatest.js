@@ -117,7 +117,7 @@ if (options["delete-entire-theme"]) {
     })
     .on("all", (event, path) => {
       path = forwardSlashes(path);
-      console.log(`[${event}]`.padEnd(9), path);
+      info(`[${event}]`.padEnd(9), path);
       switch (event) {
         case "add":
         case "change":
