@@ -47,7 +47,10 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
         return r.json();
       })
       // Catch upload errors, e.g. wrong URL
-      .catch(reject)
+      .catch(e => {
+        e.filepath = filepath;
+        reject(e);
+      })
       .then(r => {
         // Reject if there's a more shopify-y error, such as missing liquid tags or schema problems
         if (r.errors) {
@@ -56,7 +59,10 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
         success("[upload]".padEnd(9), filepath);
         return resolve(r);
       })
-      .catch(reject)
+      .catch(e => {
+        e.filepath = filepath;
+        reject(e);
+      })
   );
 };
 
