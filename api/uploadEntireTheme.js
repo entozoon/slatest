@@ -23,7 +23,8 @@ module.exports = config => () => {
               upload(a)
                 .then(resolve)
                 .catch(e => {
-                  error(a.name, e);
+                  e.name = a.name;
+                  error(e);
                 });
               // We were doing 3/second but Shopify have increased their limit further(!)
             }, i * 1000);
