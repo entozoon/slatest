@@ -13,7 +13,7 @@ module.exports = config => () => {
         `Uploading ${
           assets.length
         } assets. This will take approximately ${Math.ceil(
-          (assets.length * 333) / 1000 / 60
+          (assets.length * 1000) / 1000 / 60
         )} minutes..\n\nPlease note, it will not upload theme settings and data schema!`
       );
       const uploadAssetsPromises = assets.map(
@@ -22,8 +22,11 @@ module.exports = config => () => {
             setTimeout(() => {
               upload(a)
                 .then(resolve)
-                .catch(error);
-            }, i * 333);
+                .catch(e => {
+                  error(a.name, e);
+                });
+              // We were doing 3/second but Shopify have increased their limit further(!)
+            }, i * 1000);
           })
       );
       Promise.all(uploadAssetsPromises)
