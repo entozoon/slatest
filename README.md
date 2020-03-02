@@ -29,8 +29,6 @@ Create a `slatest.config.json` file in your project root along the lines of:
   "themeId": "11111111111",
   "appPassword": "66666666666666666666666666666666",
   "store": "my-store-name.myshopify.com",
-  "watch": ["**/*.liquid", "*/**.json", "assets/*"],
-  "ignore": ["node_modules/**", "config/settings_data.json"],
   "port": 3030
 }
 ```
@@ -103,6 +101,10 @@ SO, the solution (thanks to a [friend](https://github.com/chrisfoster78)) is to:
 
 - Create this `slatest.config.jeff.json` file, changing the `themeId` value to target your duplicated theme
 
+### If you're a Shopify Partner
+
+Creating a [whole new dev store](https://help.shopify.com/en/partners/dashboard/development-stores) is an even safer alternative, if possible, with a separate (entirely different) config file.
+
 ## Different compilation entry points?
 
 If you want to compile different entry points than `app.scss` and `app.js`, add an `entryPaths` value to your `slatest.config.json` along the lines of:
@@ -112,4 +114,15 @@ If you want to compile different entry points than `app.scss` and `app.js`, add 
     "app.compiled": ["./src/scss/app.scss", "./src/es6/app.es6"],
     "extra-thing.compiled": ["./src/scss/extra-thing.scss"]
   }
+```
+
+## Stop watching directories or ignore certain files?
+
+By default it watches all files in the typical [theme structure](https://shopify.dev/tutorials/develop-theme-templates) and ignores `config/settings_data.json` but, for whatever reason, you could change all that by modifying your `slatest.config.json` with something like:
+
+```json
+{
+  "watch": ["assets/*.css", "snippets/**/*"],
+  "ignore": ["config/settings_data.json", "snippets/never-change-this.liquid]
+}
 ```
