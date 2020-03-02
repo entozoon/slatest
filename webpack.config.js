@@ -17,7 +17,13 @@ module.exports = config => {
   // Resolve paths properly, then strip out any that don't yet exist (as webpack bitches out)
   for (let key in entryPaths) {
     entryPaths[key] = entryPaths[key].map(e => path.resolve(cwd, e));
-    entryPaths[key] = entryPaths[key].filter(e => fs.existsSync(e));
+    entryPaths[key] = entryPaths[key].filter(e => {
+      if (!fs.existsSync(e)) {
+        console.error("Uh oh! File from entryPaths does not exist:", e);
+        return false;
+      }
+      return true;
+    });
   }
 
   return {
