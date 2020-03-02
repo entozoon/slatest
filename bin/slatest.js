@@ -22,6 +22,26 @@ if (cwd.includes("node_modules")) {
   );
 }
 
+// Shopify has a strict folder structure: https://shopify.dev/tutorials/develop-theme-templates
+const validDirs = [
+  "assets",
+  "config",
+  "layout",
+  "locales",
+  "sections",
+  "snippets",
+  "templates"
+];
+
+// Watch everything within validDirs, by default
+config.watch = config.watch || validDirs.map(d => `${d}/**/*`);
+
+// Iggnore settings_data.json, by default
+config.ignore = config.ignore || ["config/settings_data.json"];
+
+// Ignore node_modules, nae matter what
+config.ignore.push("node_modules/**");
+
 // Handle CLI arguments, if any
 if (options["delete-entire-theme"]) {
   deleteEntireTheme();
@@ -117,6 +137,9 @@ if (options["delete-entire-theme"]) {
     })
     .on("all", (event, path) => {
       path = forwardSlashes(path);
+      const pathSplit = path.split("/");
+      if (pathSplit <= 1 || !validDirs.includes(pathSplit[0])) return; // ignore
+
       info(`[${event}]`.padEnd(9), path);
       switch (event) {
         case "add":
