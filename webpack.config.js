@@ -40,9 +40,9 @@ module.exports = config => {
     },
     module: {
       rules: [
-        // SCSS => CSS
+        // SCSS => CSS (Also parse CSS here, why not?)
         {
-          test: /\.scss$/,
+          test: /\.(scss|css)$/,
           use: [
             MiniCssExtractPlugin.loader,
             "css-loader",
