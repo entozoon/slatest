@@ -18,7 +18,7 @@ Aaaanyways.. TL;DR we need various simple features for a productive workflow:
 
 ## Usage
 
-Here is an [example project](https://github.com/entozoon/slatest-example), to show the installation and a typical directory structure.
+Here is an [**example project**](https://github.com/entozoon/slatest-example), showing the installation and a typical directory structure, if that helps but what you do is:
 
     npm i slatest
 
@@ -38,8 +38,8 @@ You will need to create a new theme in the Shopify admin, and get it's ID from t
 Add yourself some `package.json` scripts such as:
 
 ```json
-    "start": "slatest",
-    "upload-entire-theme": "slatest --upload-entire-theme"
+"start": "slatest",
+"upload-entire-theme": "slatest --upload-entire-theme"
 ```
 
 And fire it up!
@@ -62,13 +62,13 @@ You may also wish to delete everything, which is possible - see CLI commands bel
 
 Have a look at the demo:
 
-#### [example project](https://github.com/entozoon/slatest-example).
+### [Example project](https://github.com/entozoon/slatest-example).
 
-### Ignore
+### Ignoring
 
 You might want to `.gitignore` your `assets/*.compiled.*` files in your project, as they're likely being compiled. Just a suggestion, to avoid merge conflicts with your fellow devfellows.
 
-### Structure
+### Structuring
 
 Your directory wants typical Shopify theme directories and an `/src/scss/app.scss` file gets compiled to `/assets/app.compiled.css` which is, in turn, uploaded. Similarly, with `/src/es6/app.es6`.
 
@@ -85,7 +85,7 @@ Your directory wants typical Shopify theme directories and an `/src/scss/app.scs
     │       app.scss
     └──templates
 
-### JS
+### JavaScripting
 
 You can write typical ES6, with imports and whatnot, or even .JSX files with Inferno or whatever and it'll be compiled into vanilla JS (IE11+). NB: You'll still need [polyfills](https://polyfill.io/) if you are indeed injecting Reacty stuff while supporting IE.
 
@@ -134,9 +134,9 @@ By default it watches all files in the typical [theme structure](https://shopify
 
 Here are all the CLI options.
 
-| Parameter             | Shorthand | What it do                                                                                                                           |
-| --------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| --config "filename"   | -c        | Use a specified JSON config file                                                                                                     |
-| --livereload          | -l        | Enable live reload [disabled by default - as not everyone likes it, and it's buggy with certain plugins that domain check your site] |
-| --upload-entire-them  | -u        | **[DANGER]** Upload all the theme files to your site, overwriting everything!                                                        |
-| --delete-entire-theme | -d        | **[DANGER]** Delete all the theme files. Rarely useful, except when starting a site truly from scratch                               |
+| Parameter               | Shorthand | What it do                                                                                                                                |
+| ----------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `--config "filename"`   | `-c`      | Use a specified JSON config file.                                                                                                         |
+| `--livereload`          | `-l`      | Enable live reload [**disabled by default** - as not everyone likes it, and it's buggy with certain plugins that domain check your site]. |
+| `--upload-entire-theme` | `-u`      | **[DANGER]** Upload all the theme files to your site, overwriting everything!                                                             |
+| `--delete-entire-theme` | `-d`      | **[DANGER]** Delete all the theme files. Rarely useful, except when starting a site truly from scratch.                                   |
