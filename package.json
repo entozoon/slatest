@@ -1,6 +1,6 @@
 {
   "name": "slatest",
-  "version": "1.14.2",
+  "version": "1.14.3",
   "description": "Shopify theme development toolkit",
   "main": "./bin/slatest.js",
   "bin": {
@@ -38,6 +38,7 @@
     "node-sass": "4.13.*",
     "node-watch": "0.6.*",
     "null-loader": "3.0.*",
+    "open": "^7.0.2",
     "postcss-loader": "3.0.*",
     "sass-loader": "8.0.*",
     "shelljs": "0.8.*",

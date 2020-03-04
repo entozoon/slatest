@@ -9,7 +9,7 @@ Well, [Slate](https://github.com/Shopify/slate/) is Shopify's toolkit but [absur
 Aaaanyways.. TL;DR we need various simple features for a productive workflow:
 
 - ✔ Template and asset sync with Shopify
-- ✔ Live reloading (HMR style refresh through a local proxy)
+- ✔ Live reloading (HMR style refresh through a local proxy) [disabled by default]
 - ✔ .SCSS -> .CSS compilation
 - ✔ .ES6 -> JS compilation
 - ✔ Wipe the entire theme's assets
@@ -39,7 +39,6 @@ Add yourself some `package.json` scripts such as:
 
 ```json
     "start": "slatest",
-    "delete-entire-theme": "slatest --delete-entire-theme",
     "upload-entire-theme": "slatest --upload-entire-theme"
 ```
 
@@ -47,19 +46,23 @@ And fire it up!
 
     npm start
 
-## Deploying Entire Theme
+## Deploying entire theme
 
 When you first start a project, you possibly want to dump an entire theme into the project and have it upload. You can do so by running:
 
     npm run upload-entire-theme
 
-And delete it all, similarly. It's a little intense and takes a while, so I wouldn't recommend doing it on the regular.
+It's a little intense and takes a while, so I wouldn't recommend doing it on the regular.
 
 Please note, this will not upload the `settings_data.json` - for safety reasons, as it contains all of your site's customisations. If you really are starting from scratch and want to upload it, find your theme's 'Edit code' button in the Shopify admin and paste the contents manually.
 
+You may also wish to delete everything, which is possible - see CLI commands below.
+
 ## About what are you talking, Willis?
 
-Have a look at the [example project](https://github.com/entozoon/slatest-example).
+Have a look at the demo:
+
+#### [example project](https://github.com/entozoon/slatest-example).
 
 ### Ignore
 
@@ -126,3 +129,14 @@ By default it watches all files in the typical [theme structure](https://shopify
   "ignore": ["config/settings_data.json", "snippets/never-change-this.liquid]
 }
 ```
+
+## Just show me what you got!
+
+Here are all the CLI options.
+
+| Parameter             | Shorthand | What it do                                                                                                                           |
+| --------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| --config "filename"   | -c        | Use a specified JSON config file                                                                                                     |
+| --livereload          | -l        | Enable live reload [disabled by default - as not everyone likes it, and it's buggy with certain plugins that domain check your site] |
+| --upload-entire-them  | -u        | **[DANGER]** Upload all the theme files to your site, overwriting everything!                                                        |
+| --delete-entire-theme | -d        | **[DANGER]** Delete all the theme files. Rarely useful, except when starting a site truly from scratch                               |

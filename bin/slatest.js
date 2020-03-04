@@ -1,5 +1,6 @@
 const options = require("command-line-args")([
   { name: "config", alias: "c", type: String },
+  { name: "livereload", alias: "l", type: Boolean },
   { name: "delete-entire-theme", alias: "d", type: Boolean },
   { name: "upload-entire-theme", alias: "u", type: Boolean }
 ]);
@@ -14,6 +15,7 @@ const deleteEntireTheme = require("../api/deleteEntireTheme")(config);
 const uploadEntireTheme = require("../api/uploadEntireTheme")(config);
 const globToRegExp = require("glob-to-regexp");
 const webpackConfig = require("../webpack.config.js")(config);
+const open = require("open");
 
 // Catch init from wrong dir
 if (cwd.includes("node_modules")) {
@@ -48,34 +50,39 @@ if (options["delete-entire-theme"]) {
 } else if (options["upload-entire-theme"]) {
   uploadEntireTheme();
 } else {
-  // Local serve
-  browserSync.init({
-    proxy: {
-      target: `https://${config.store}/?key=${config.appPassword}&preview_theme_id=${config.themeId}`,
-      middleware: (req, res, next) => {
-        // pb=0  Hide preview bar
-        // _fd=0 Prevent forwarding from localhost -> custom domain
-        req.url += (req.url.includes("?") ? "&" : "?") + "pb=0&_fd=0";
-        next();
-      }
-    },
-    // https: true // moot, as is infered from proxy
-    reloadDelay: 500, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
-    // injectChanges: false
-    logLevel: "info",
-    logPrefix: "refresh",
-    port: config.port ? config.port : 3030,
-    // Inject magic script into the <head> rather than <body>
-    // https://github.com/BrowserSync/browser-sync/issues/1718
-    snippetOptions: {
-      rule: {
-        match: /<head[^>]*>/i,
-        fn: (snippet, match) => {
-          return match + snippet;
+  const target = `https://${config.store}/?key=${config.appPassword}&preview_theme_id=${config.themeId}`;
+  if (options["livereload"]) {
+    // Local serve
+    browserSync.init({
+      proxy: {
+        target,
+        middleware: (req, res, next) => {
+          // pb=0  Hide preview bar
+          // _fd=0 Prevent forwarding from localhost -> custom domain
+          req.url += (req.url.includes("?") ? "&" : "?") + "pb=0&_fd=0";
+          next();
+        }
+      },
+      // https: true // moot, as is infered from proxy
+      reloadDelay: 500, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
+      // injectChanges: false
+      logLevel: "info",
+      logPrefix: "refresh",
+      port: config.port ? config.port : 3030,
+      // Inject magic script into the <head> rather than <body>
+      // https://github.com/BrowserSync/browser-sync/issues/1718
+      snippetOptions: {
+        rule: {
+          match: /<head[^>]*>/i,
+          fn: (snippet, match) => {
+            return match + snippet;
+          }
         }
       }
-    }
-  });
+    });
+  } else {
+    open(target);
+  }
 
   // Webpack - compile SCSS/JS/etc on change
   const _webpack = webpack(webpackConfig).watch(
