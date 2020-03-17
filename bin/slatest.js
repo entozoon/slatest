@@ -50,6 +50,10 @@ if (options["delete-entire-theme"]) {
   deleteEntireTheme();
 } else if (options["upload-entire-theme"]) {
   uploadEntireTheme();
+} else if (options["build"]) {
+  webpack(webpackConfig).run(r => {
+    console.log("Webpack build complete!");
+  });
 } else {
   const target = `https://${config.store}/?key=${config.appPassword}&preview_theme_id=${config.themeId}`;
   if (options["livereload"]) {
@@ -86,9 +90,6 @@ if (options["delete-entire-theme"]) {
   }
 
   // Webpack - compile SCSS/JS/etc on change
-  if (options["build"]) {
-    webpackConfig.watch = false;
-  }
   const _webpack = webpack(webpackConfig).watch(
     {
       aggregateTimeout: 500,
