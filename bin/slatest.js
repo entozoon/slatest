@@ -1,6 +1,7 @@
 const options = require("command-line-args")([
   { name: "config", alias: "c", type: String },
   { name: "livereload", alias: "l", type: Boolean },
+  { name: "build", alias: "b", type: Boolean },
   { name: "delete-entire-theme", alias: "d", type: Boolean },
   { name: "upload-entire-theme", alias: "u", type: Boolean }
 ]);
@@ -85,6 +86,9 @@ if (options["delete-entire-theme"]) {
   }
 
   // Webpack - compile SCSS/JS/etc on change
+  if (options["build"]) {
+    webpackConfig.watch = false;
+  }
   const _webpack = webpack(webpackConfig).watch(
     {
       aggregateTimeout: 500,
