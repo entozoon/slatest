@@ -7,7 +7,8 @@ const options = require("command-line-args")([
 ]);
 const chokidar = require("chokidar");
 const browserSync = require("browser-sync");
-const webpack = require("webpack");
+const Webpack = require("webpack");
+const WebpackDevServer = require("webpack-dev-server/lib/Server");
 const config = require("../lib/config")(options.config);
 const { forwardSlashes, cwd, info, error } = require("../lib/utils");
 const upload = require("../api/upload")(config);
@@ -51,6 +52,7 @@ if (options["delete-entire-theme"]) {
 } else if (options["upload-entire-theme"]) {
   uploadEntireTheme();
 } else if (options["build"]) {
+  webpackConfig.mode = "production";
   webpack(webpackConfig).run(r => {
     console.log("Webpack build complete!");
   });
@@ -89,46 +91,53 @@ if (options["delete-entire-theme"]) {
     open(target);
   }
 
-  // Webpack - compile SCSS/JS/etc on change
-  const _webpack = webpack(webpackConfig).watch(
-    {
-      aggregateTimeout: 500,
-      poll: false
-    },
-    (err, stats) => {
-      // Object.keys(stats.compilation.assets).map(name => {
-      //   console.log(name);
-      // });
-      if (err) error(err);
-      if (stats.hasErrors()) {
-        error(
-          stats.toString({
-            chunks: false,
-            colors: true
-          })
-        );
-      }
-    }
-  );
+  // Webpack instance
+  const webpack = Webpack(webpackConfig);
+
+  // // Webpack - compile SCSS/JS/etc on change, through webpack watch
+  // webpack.watch(
+  //   {
+  //     aggregateTimeout: 500,
+  //     poll: false,
+  //     skipInitialEmit: true, // PR, not ready - https://github.com/webpack/webpack/issues/9730
+  //     ignored: /node_modules/
+  //   },
+  //   (err, stats) => {
+  //     // Object.keys(stats.compilation.assets).map(name => {
+  //     //   console.log(name);
+  //     // });
+  //     if (err) error(err);
+  //     if (stats.hasErrors()) {
+  //       error(
+  //         stats.toString({
+  //           chunks: false,
+  //           colors: true
+  //         })
+  //       );
+  //     }
+  //   }
+  // );
+
+  // Webpack dev server - wrangled to compile and output SCSS/JS/etc on change (more efficient for dev)
+  const server = new WebpackDevServer(webpack, webpackConfig.devServer);
+  server.listen(8989, "127.0.0.1", () => {});
 
   // Watch - file changed notification
-  _webpack.compiler.hooks.watchRun.tapAsync(
-    "changeMessage",
-    (_compiler, done) => {
-      const changedTimes = _compiler.watchFileSystem.watcher.mtimes;
-      const changedFiles = Object.keys(changedTimes)
-        .map(file => `\n  ${file}`)
-        .join("");
-      if (changedFiles.length) {
-        info(
-          `${"[compile]".padEnd(9)} ${forwardSlashes(
-            changedFiles.trim()
-          ).replace(cwd, "")}`
-        );
-      }
-      return done();
+  webpack.hooks.watchRun.tapAsync("changeMessage", (_compiler, done) => {
+    const changedTimes = _compiler.watchFileSystem.watcher.mtimes;
+    const changedFiles = Object.keys(changedTimes)
+      .map(file => `\n  ${file}`)
+      .join("");
+    if (changedFiles.length) {
+      info(
+        `${"[compile]".padEnd(9)} ${forwardSlashes(changedFiles.trim()).replace(
+          cwd,
+          ""
+        )}`
+      );
     }
-  );
+    return done();
+  });
 
   // Watch - upload and browser refresh
   chokidar
@@ -158,7 +167,9 @@ if (options["delete-entire-theme"]) {
         case "change":
           upload(path)
             .catch(error)
-            .then(browserSync.reload); // <- Could target different filetypes depending on the event..
+            .then(() => {
+              options["livereload"] && browserSync.reload();
+            }); // <- Could target different filetypes depending on the event..
           break;
         case "unlink":
           remove(path).catch(error);
