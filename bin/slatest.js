@@ -91,8 +91,10 @@ if (options["delete-entire-theme"]) {
     open(target);
   }
 
-  // // Webpack - compile SCSS/JS/etc on change
-  // const webpack = Webpack(webpackConfig);
+  // Webpack instance
+  const webpack = Webpack(webpackConfig);
+
+  // // Webpack - compile SCSS/JS/etc on change, through webpack watch
   // webpack.watch(
   //   {
   //     aggregateTimeout: 500,
