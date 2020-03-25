@@ -138,6 +138,6 @@ Here are all the CLI options.
 | ----------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `--config "filename"`   | `-c`      | Use a specified JSON config file.                                                                                                         |
 | `--livereload`          | `-l`      | Enable live reload [**disabled by default** - as not everyone likes it, and it's buggy with certain plugins that domain check your site]. |
-| `--build`               | `-b`      | Perform a one-off build, as opposed to it's default watch behaviour                                                                       |
+| `--build`               | `-b`      | Perform a one-off build, as opposed to it's default watch behaviour with nice minified output and whathaveyou.                            |
 | `--upload-entire-theme` | `-u`      | **[DANGER]** Upload all the theme files to your site, overwriting everything!                                                             |
 | `--delete-entire-theme` | `-d`      | **[DANGER]** Delete all the theme files. Rarely useful, except when starting a site truly from scratch.                                   |

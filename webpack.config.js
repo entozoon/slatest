@@ -28,7 +28,7 @@ module.exports = config => {
   console.log("entryPaths", entryPaths);
 
   return {
-    mode: "development",
+    mode: "development", // overridden for build
     target: "node",
     entry: entryPaths,
     resolve: {
@@ -47,6 +47,7 @@ module.exports = config => {
       quiet: true,
       stats: "errors-only"
     },
+    // Various things we might want, now that we're actually in dev mode when not running with --build
     // optimization: {
     //   namedModules: true,
     //   namedChunks: true,

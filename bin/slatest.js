@@ -52,6 +52,7 @@ if (options["delete-entire-theme"]) {
 } else if (options["upload-entire-theme"]) {
   uploadEntireTheme();
 } else if (options["build"]) {
+  webpackConfig.mode = "production";
   webpack(webpackConfig).run(r => {
     console.log("Webpack build complete!");
   });
@@ -90,8 +91,8 @@ if (options["delete-entire-theme"]) {
     open(target);
   }
 
-  // Webpack - compile SCSS/JS/etc on change
-  const webpack = Webpack(webpackConfig);
+  // // Webpack - compile SCSS/JS/etc on change
+  // const webpack = Webpack(webpackConfig);
   // webpack.watch(
   //   {
   //     aggregateTimeout: 500,
@@ -115,10 +116,9 @@ if (options["delete-entire-theme"]) {
   //   }
   // );
 
+  // Webpack dev server - wrangled to compile and output SCSS/JS/etc on change (more efficient for dev)
   const server = new WebpackDevServer(webpack, webpackConfig.devServer);
-  server.listen(8989, "127.0.0.1", () => {
-    // console.log('Starting server on http://localhost:8080');
-  });
+  server.listen(8989, "127.0.0.1", () => {});
 
   // Watch - file changed notification
   webpack.hooks.watchRun.tapAsync("changeMessage", (_compiler, done) => {
