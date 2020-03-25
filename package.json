@@ -1,6 +1,6 @@
 {
   "name": "slatest",
-  "version": "1.14.5",
+  "version": "2.0.0",
   "description": "Shopify theme development toolkit",
   "main": "./bin/slatest.js",
   "bin": {
@@ -43,6 +43,7 @@
     "sass-loader": "8.0.*",
     "shelljs": "0.8.*",
     "webpack": "4.41.*",
-    "webpack-cli": "3.3.*"
+    "webpack-cli": "3.3.*",
+    "webpack-dev-server": "^3.10.3"
   }
 }

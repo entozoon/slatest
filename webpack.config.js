@@ -25,19 +25,48 @@ module.exports = config => {
       return true;
     });
   }
+  console.log("entryPaths", entryPaths);
 
   return {
-    mode: "production",
+    mode: "development",
     target: "node",
     entry: entryPaths,
     resolve: {
       modules: [path.resolve(cwd, `node_modules`), path.resolve(cwd, `assets`)],
       extensions: [`.es6`, `.jsx`, ".js"]
     },
-    watch: true,
+    watch: false, // initialised later
     output: {
       path: path.resolve(cwd, "assets")
     },
+    // Use a hidden devServer to compile stuff, for dev purposes at least, as it's more efficient (does partial compiles)
+    devServer: {
+      writeToDisk: true, // this is what we're here for
+      compress: false,
+      open: false, // we don't actually want to see it, so..
+      quiet: true,
+      stats: "errors-only"
+    },
+    // optimization: {
+    //   namedModules: true,
+    //   namedChunks: true,
+    //   nodeEnv: "development",
+    //   flagIncludedChunks: false,
+    //   occurrenceOrder: false,
+    //   sideEffects: false,
+    //   usedExports: false,
+    //   concatenateModules: false,
+    //   splitChunks: {
+    //     hidePathInfo: false,
+    //     minSize: 10000,
+    //     maxAsyncRequests: Infinity,
+    //     maxInitialRequests: Infinity
+    //   },
+    //   noEmitOnErrors: false,
+    //   checkWasmTypes: false,
+    //   minimize: false,
+    //   removeAvailableModules: false
+    // },
     module: {
       rules: [
         // SCSS => CSS (Also parse CSS here, why not?)
