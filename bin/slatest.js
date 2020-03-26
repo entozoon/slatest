@@ -53,6 +53,8 @@ if (options["delete-entire-theme"]) {
   uploadEntireTheme();
 } else if (options["build"]) {
   webpackConfig.mode = "production";
+  // Webpack instance
+  const webpack = Webpack(webpackConfig);
   webpack(webpackConfig).run(r => {
     console.log("Webpack build complete!");
   });
