@@ -55,7 +55,7 @@ if (options["delete-entire-theme"]) {
   webpackConfig.mode = "production";
   // Webpack instance
   const webpack = Webpack(webpackConfig);
-  webpack(webpackConfig).run(r => {
+  webpack.run(r => {
     console.log("Webpack build complete!");
   });
 } else {
