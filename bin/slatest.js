@@ -122,7 +122,8 @@ if (options["delete-entire-theme"]) {
 
   // Webpack dev server - wrangled to compile and output SCSS/JS/etc on change (more efficient for dev)
   const server = new WebpackDevServer(webpack, webpackConfig.devServer);
-  server.listen(8989, "127.0.0.1", () => {});
+  // We need to specify a port in a more intelligent way really, or retry until it finds one, even though it's a hidden service
+  server.listen(config.port ? config.port + 100 : 8989, "127.0.0.1", () => {});
 
   // Watch - file changed notification
   webpack.hooks.watchRun.tapAsync("changeMessage", (_compiler, done) => {
