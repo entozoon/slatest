@@ -3,7 +3,8 @@ const options = require("command-line-args")([
   { name: "livereload", alias: "l", type: Boolean },
   { name: "build", alias: "b", type: Boolean },
   { name: "delete-entire-theme", alias: "d", type: Boolean },
-  { name: "upload-entire-theme", alias: "u", type: Boolean }
+  { name: "upload-entire-theme", alias: "u", type: Boolean },
+  { name: "sound-effects", alias: "s", type: Boolean },
 ]);
 const chokidar = require("chokidar");
 const browserSync = require("browser-sync");
@@ -18,6 +19,7 @@ const uploadEntireTheme = require("../api/uploadEntireTheme")(config);
 const globToRegExp = require("glob-to-regexp");
 const webpackConfig = require("../webpack.config.js")(config);
 const open = require("open");
+const soundEffects = require("node-sound-effects");
 
 // Catch init from wrong dir
 if (cwd.includes("node_modules")) {
@@ -34,11 +36,11 @@ const validDirs = [
   "locales",
   "sections",
   "snippets",
-  "templates"
+  "templates",
 ];
 
 // Watch everything within validDirs, by default
-config.watch = config.watch || validDirs.map(d => `${d}/**/*`);
+config.watch = config.watch || validDirs.map((d) => `${d}/**/*`);
 
 // Iggnore settings_data.json, by default
 config.ignore = config.ignore || ["config/settings_data.json"];
@@ -55,7 +57,7 @@ if (options["delete-entire-theme"]) {
   webpackConfig.mode = "production";
   // Webpack instance
   const webpack = Webpack(webpackConfig);
-  webpack.run(r => {
+  webpack.run((r) => {
     console.log("Webpack build complete!");
   });
 } else {
@@ -70,7 +72,7 @@ if (options["delete-entire-theme"]) {
           // _fd=0 Prevent forwarding from localhost -> custom domain
           req.url += (req.url.includes("?") ? "&" : "?") + "pb=0&_fd=0";
           next();
-        }
+        },
       },
       // https: true // moot, as is infered from proxy
       reloadDelay: 500, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
@@ -85,9 +87,9 @@ if (options["delete-entire-theme"]) {
           match: /<head[^>]*>/i,
           fn: (snippet, match) => {
             return match + snippet;
-          }
-        }
-      }
+          },
+        },
+      },
     });
   } else {
     open(target);
@@ -129,7 +131,7 @@ if (options["delete-entire-theme"]) {
   webpack.hooks.watchRun.tapAsync("changeMessage", (_compiler, done) => {
     const changedTimes = _compiler.watchFileSystem.watcher.mtimes;
     const changedFiles = Object.keys(changedTimes)
-      .map(file => `\n  ${file}`)
+      .map((file) => `\n  ${file}`)
       .join("");
     if (changedFiles.length) {
       info(
@@ -145,19 +147,19 @@ if (options["delete-entire-theme"]) {
   // Watch - upload and browser refresh
   chokidar
     .watch(config.watch, {
-      ignored: path => {
+      ignored: (path) => {
         // https://github.com/paulmillr/chokidar/issues/773#issuecomment-504778962
         // return config.ignore.some(s => path.includes(s))
         // https://github.com/fitzgen/glob-to-regexp#usage
         return globToRegExp(`{${config.ignore.join(",")}}`, {
-          extended: true
+          extended: true,
         }).test(path);
       },
       ignoreInitial: true,
       awaitWriteFinish: {
         stabilityThreshold: 1000,
-        pollInterval: 100
-      }
+        pollInterval: 100,
+      },
     })
     .on("all", (event, path) => {
       path = forwardSlashes(path);
@@ -171,6 +173,7 @@ if (options["delete-entire-theme"]) {
           upload(path)
             .catch(error)
             .then(() => {
+              options["upload-entire-theme"] && soundEffects.play("upload");
               options["livereload"] && browserSync.reload();
             }); // <- Could target different filetypes depending on the event..
           break;

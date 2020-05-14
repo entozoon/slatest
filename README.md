@@ -141,3 +141,4 @@ Here are all the CLI options.
 | `--build`               | `-b`      | Perform a one-off build, as opposed to it's default watch behaviour with nice minified output and whathaveyou.                            |
 | `--upload-entire-theme` | `-u`      | **[DANGER]** Upload all the theme files to your site, overwriting everything!                                                             |
 | `--delete-entire-theme` | `-d`      | **[DANGER]** Delete all the theme files. Rarely useful, except when starting a site truly from scratch.                                   |
+| `--sound-effects`       | `-s`      | Enable sound effects, e.g. on successful upload                                                                                           |
