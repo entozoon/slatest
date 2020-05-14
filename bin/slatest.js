@@ -173,7 +173,7 @@ if (options["delete-entire-theme"]) {
           upload(path)
             .catch(error)
             .then(() => {
-              options["upload-entire-theme"] && soundEffects.play("upload");
+              options["sound-effects"] && soundEffects.play("upload");
               options["livereload"] && browserSync.reload();
             }); // <- Could target different filetypes depending on the event..
           break;
