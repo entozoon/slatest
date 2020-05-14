@@ -4,10 +4,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { cwd } = require("./lib/utils");
 
 const entryPathsDefaults = {
-  "app.compiled": ["./src/scss/app.scss", "./src/es6/app.es6"]
+  "app.compiled": ["./src/scss/app.scss", "./src/es6/app.es6"],
 };
 
-module.exports = config => {
+module.exports = (config) => {
   // Our to-be-compiled entry paths
   let entryPaths = entryPathsDefaults;
   if (config.entryPaths) {
@@ -16,8 +16,8 @@ module.exports = config => {
 
   // Resolve paths properly, then strip out any that don't yet exist (as webpack bitches out)
   for (let key in entryPaths) {
-    entryPaths[key] = entryPaths[key].map(e => path.resolve(cwd, e));
-    entryPaths[key] = entryPaths[key].filter(e => {
+    entryPaths[key] = entryPaths[key].map((e) => path.resolve(cwd, e));
+    entryPaths[key] = entryPaths[key].filter((e) => {
       if (!fs.existsSync(e)) {
         console.error("Uh oh! File from entryPaths does not exist:", e);
         return false;
@@ -33,19 +33,19 @@ module.exports = config => {
     entry: entryPaths,
     resolve: {
       modules: [path.resolve(cwd, `node_modules`), path.resolve(cwd, `assets`)],
-      extensions: [`.es6`, `.jsx`, ".js"]
+      extensions: [`.es6`, `.jsx`, ".js"],
     },
     watch: false, // initialised later
     output: {
-      path: path.resolve(cwd, "assets")
+      path: path.resolve(cwd, "assets"),
     },
     // Use a hidden devServer to compile stuff, for dev purposes at least, as it's more efficient (does partial compiles)
     devServer: {
       writeToDisk: true, // this is what we're here for
       compress: false,
       open: false, // we don't actually want to see it, so..
-      quiet: true,
-      stats: "errors-only"
+      quiet: false, // ideally true! but there are errors I can't hook into - i.e. if node is updated (causing failedModule node-sass)
+      stats: "errors-only",
     },
     // optimization: {
     //   namedModules: true,
@@ -79,12 +79,12 @@ module.exports = config => {
               loader: "postcss-loader",
               options: {
                 config: {
-                  path: __dirname
-                }
-              }
+                  path: __dirname,
+                },
+              },
             },
-            "sass-loader"
-          ]
+            "sass-loader",
+          ],
         },
         // ES6/JS/JSX => JS vanilla
         {
@@ -94,20 +94,20 @@ module.exports = config => {
           exclude: /node_modules/,
           loader: "babel-loader",
           options: {
-            configFile: path.resolve(__dirname, `.babelrc`)
-          }
+            configFile: path.resolve(__dirname, `.babelrc`),
+          },
         },
         // Dummy compilation for README.md - a workaround for when no src entry points exist
         {
           test: path.resolve(__dirname, "README.md"),
-          use: "null-loader"
-        }
-      ]
+          use: "null-loader",
+        },
+      ],
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: "[name].css"
-      })
-    ]
+        filename: "[name].css",
+      }),
+    ],
   };
 };
