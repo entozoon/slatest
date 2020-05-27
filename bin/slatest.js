@@ -170,6 +170,7 @@ if (options["delete-entire-theme"]) {
       switch (event) {
         case "add":
         case "change":
+          options["sound-effects"] && soundEffects.play("change");
           upload(path)
             .catch(error)
             .then(() => {
