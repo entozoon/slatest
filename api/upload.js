@@ -4,7 +4,7 @@ const { success, assetKey } = require("../lib/utils");
 
 const uploadFileContents = (config, filepath, contents, resolve, reject) => {
   let asset = {
-    key: assetKey(filepath)
+    key: assetKey(filepath),
   };
   // There's no information really about whether it should use attachment,
   // with base64 encoded data, or just value with a string as suggested for .liquid
@@ -26,11 +26,11 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
       headers: {
         "X-Shopify-Access-Token": config.appPassword,
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
       },
-      body: JSON.stringify({ asset })
+      body: JSON.stringify({ asset }),
     })
-      .then(r => {
+      .then((r) => {
         // console.log("r.status", r.status);
         // console.log("r.headers", r.headers.get("content-type"));
         // Reject if it borks straight away
@@ -47,11 +47,11 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
         return r.json();
       })
       // Catch upload errors, e.g. wrong URL
-      .catch(e => {
+      .catch((e) => {
         e.filepath = filepath;
         reject(e);
       })
-      .then(r => {
+      .then((r) => {
         // Reject if there's a more shopify-y error, such as missing liquid tags or schema problems
         if (r.errors) {
           return reject(`\n[ERROR] ${filepath} :\n${JSON.stringify(r.errors)}`);
@@ -59,20 +59,20 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
         success("[upload]".padEnd(9), filepath);
         return resolve(r);
       })
-      .catch(e => {
+      .catch((e) => {
         e.filepath = filepath;
         reject(e);
       })
   );
 };
 
-module.exports = config => filepath =>
+module.exports = (config) => (filepath) =>
   new Promise((resolve, reject) => {
     // Read the file, and upload the contents
     fs.readFile(filepath, "base64", (err, contents) => {
       if (err) reject(`[ERROR] ${filepath} : ${err}`);
       // Upload the file if has contents
-      if (contents.length) {
+      if (contents && contents.length) {
         uploadFileContents(config, filepath, contents, resolve, reject);
       }
       // If the file is empty (which happens when read fails, intermittently), or a legit empty file,
