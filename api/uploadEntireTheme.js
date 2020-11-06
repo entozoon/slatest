@@ -70,6 +70,9 @@ module.exports = (config) => () => {
           console.log("Assets local", assetsLocal.length);
           console.log("Assets online", assetsOnline.length);
           console.log("Assets changed", assetsChanged.length);
+          console.log(
+            "(If you have a bunch that get stuck as changed, consider running delete-entire-theme and trying again, as checksums were only added late 2020)"
+          );
 
           console.log(
             `\nUploading ${
