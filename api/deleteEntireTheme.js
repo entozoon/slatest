@@ -1,6 +1,6 @@
 const { success, error } = require("../lib/utils");
 
-module.exports = config => () => {
+module.exports = (config) => () => {
   const getAssets = require("./getAssets")(config);
   const remove = require("./remove")(config);
   console.log(
@@ -8,26 +8,24 @@ module.exports = config => () => {
   );
   setTimeout(() => {
     getAssets()
-      .then(assets => {
+      .then((assets) => {
         if (!assets.length) reject("No assets");
 
         console.log(
           `Deleting ${
             assets.length
           } assets. This will take approximately ${Math.ceil(
-            (assets.length * 333) / 1000 / 60
+            (assets.length * 1000) / 1000 / 60
           )} minutes..`
         );
 
         const deleteAssetsPromises = assets.map(
           (a, i) =>
-            new Promise(resolve => {
+            new Promise((resolve) => {
               // Max 4 request/s so have a cheeky set of timeouts to pace it (#KISS)
               setTimeout(() => {
-                remove(a.key)
-                  .then(resolve)
-                  .catch(error);
-              }, i * 333);
+                remove(a.key).then(resolve).catch(error);
+              }, i * 1000);
             })
         );
         Promise.all(deleteAssetsPromises)
