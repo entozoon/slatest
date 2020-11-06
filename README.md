@@ -13,7 +13,7 @@ Aaaanyways.. TL;DR we need various simple features for a productive workflow:
 - ✔ .SCSS -> .CSS compilation
 - ✔ .ES6 -> JS compilation
 - ✔ Wipe the entire theme's assets
-- ✔ Upload an entire theme
+- ✔ Upload an entire theme (with checksums to save time)
 - ❌ Template (this project only contains the tools for development, not a theme)
 
 ## Usage

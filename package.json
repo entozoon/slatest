@@ -1,6 +1,6 @@
 {
   "name": "slatest",
-  "version": "2.1.6",
+  "version": "2.2.0",
   "description": "Shopify theme development toolkit",
   "main": "./bin/slatest.js",
   "bin": {
@@ -29,6 +29,7 @@
     "chokidar": "3.3.*",
     "colors": "1.4.*",
     "command-line-args": "5.1.*",
+    "crypto-js": "^4.0.0",
     "css-loader": "3.2.*",
     "fs-extra": "8.1.*",
     "glob-to-regexp": "0.4.*",
