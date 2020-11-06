@@ -1,14 +1,14 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
-const md5 = require("crypto-js/md5");
+const md5 = require("md5");
 const globby = require("globby");
 const { success, error } = require("../lib/utils");
 //
 const generateChecksum = (filepath) => {
   // Shopify's generated checksums are md5 based on utf8 file contents
-  const contents = fs.readFileSync(filepath, "utf8");
+  const contents = fs.readFileSync(filepath);
   if (!contents) return null;
-  return md5(contents).toString();
+  return md5(contents);
 };
 const prepareAssets = (assetKeys) =>
   assetKeys.map((key) => {
@@ -25,7 +25,6 @@ module.exports = (config) => () => {
     .then((assetKeys) => {
       // Similar to deleteEntireTheme, pacing it all out simplistically
       if (!assetKeys.length) reject("No assets");
-
       const assetsLocal = prepareAssets(assetKeys);
       // console.log("assetsLocal", assetsLocal);
       const apiUrlAssets = require("./apiUrlAssets")(config);
@@ -71,9 +70,8 @@ module.exports = (config) => () => {
           console.log("Assets online", assetsOnline.length);
           console.log("Assets changed", assetsChanged.length);
           console.log(
-            "(If you have a bunch that get stuck as changed, consider running delete-entire-theme and trying again, as checksums were only added late 2020)"
+            "(If you lots that get stuck as changed, consider running delete-entire-theme and trying again, as checksums were only added late 2020, but there may be a few malingerer regardless)"
           );
-
           console.log(
             `\nUploading ${
               assetsChanged.length
