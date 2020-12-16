@@ -76,7 +76,7 @@ module.exports = (config) => () => {
             `\nUploading ${
               assetsChanged.length
             } assets. This will take approximately ${Math.ceil(
-              (assetsChanged.length * 1000) / 1000 / 60
+              (assetsChanged.length * 500) / 500 / 60
             )} minutes..\n\nPlease note, it will not upload theme settings and data schema!\n`
           );
           const uploadAssetsPromises = assetsChanged.map(
@@ -89,8 +89,8 @@ module.exports = (config) => () => {
                       e.name = a.name;
                       error(e);
                     });
-                  // We were doing 3/second but Shopify have increased their limit further(!)
-                }, i * 1000);
+                  // Shopify API call rates keep bloody changing, apparently now 4/s max
+                }, i * 500);
               })
           );
           Promise.all(uploadAssetsPromises)
