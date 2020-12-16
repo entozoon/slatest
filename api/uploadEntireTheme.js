@@ -70,7 +70,7 @@ module.exports = (config) => () => {
           console.log("Assets online", assetsOnline.length);
           console.log("Assets changed", assetsChanged.length);
           console.log(
-            "(If you lots that get stuck as changed, consider running delete-entire-theme and trying again, as checksums were only added late 2020, but there may be a few malingerer regardless)"
+            "(If lots get stuck as changed, consider running delete-entire-theme and trying again, as checksums were only added late 2020. That said, there may be a few malingerers regardless)"
           );
           console.log(
             `\nUploading ${
