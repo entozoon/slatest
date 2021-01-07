@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { cwd } = require("./lib/utils");
-var nodeExternals = require("webpack-node-externals");
 
 const entryPathsDefaults = {
   "app.compiled": ["./src/scss/app.scss", "./src/es6/app.es6"],
@@ -31,13 +30,15 @@ module.exports = (config) => {
   return {
     mode: "development", // overridden for build
     target: "node",
-    externals: [nodeExternals()], // in order to ignore all modules in node_modules folder https://stackoverflow.com/questions/33001237/
     entry: entryPaths,
     resolve: {
       modules: [path.resolve(cwd, `node_modules`), path.resolve(cwd, `assets`)],
       extensions: [`.es6`, `.jsx`, ".js"],
     },
     watch: false, // initialised later
+    watchOptions: {
+      ignored: /node_modules/,
+    },
     output: {
       path: path.resolve(cwd, "assets"),
     },
