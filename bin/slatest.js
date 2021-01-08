@@ -75,7 +75,7 @@ if (options["delete-entire-theme"]) {
         },
       },
       // https: true // moot, as is infered from proxy
-      reloadDelay: 500, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
+      reloadDelay: 1000, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
       // injectChanges: false
       logLevel: "info",
       logPrefix: "refresh",
