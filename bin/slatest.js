@@ -174,7 +174,7 @@ if (options["delete-entire-theme"]) {
           upload(path)
             .catch((err) => {
               options["sound-effects"] && soundEffects.play("error");
-              console.error(err);
+              error(err);
             })
             .then(() => {
               options["sound-effects"] && soundEffects.play("upload");
@@ -184,7 +184,7 @@ if (options["delete-entire-theme"]) {
         case "unlink":
           remove(path).catch((err) => {
             options["sound-effects"] && soundEffects.play("error");
-            console.error(err);
+            error(err);
           });
           break;
         case "default":
