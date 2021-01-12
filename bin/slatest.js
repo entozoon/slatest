@@ -172,14 +172,20 @@ if (options["delete-entire-theme"]) {
         case "change":
           options["sound-effects"] && soundEffects.play("change");
           upload(path)
-            .catch(error)
+            .catch((err) => {
+              options["sound-effects"] && soundEffects.play("error");
+              console.error(err);
+            })
             .then(() => {
               options["sound-effects"] && soundEffects.play("upload");
               options["livereload"] && browserSync.reload();
             }); // <- Could target different filetypes depending on the event..
           break;
         case "unlink":
-          remove(path).catch(error);
+          remove(path).catch((err) => {
+            options["sound-effects"] && soundEffects.play("error");
+            console.error(err);
+          });
           break;
         case "default":
           console.log(
