@@ -144,6 +144,20 @@ if (options["delete-entire-theme"]) {
     return done();
   });
 
+  // Webpack error sound effect (e.g. syntax errors)
+  webpack.hooks.afterCompile.tapAsync("catching-errors", ({ errors }, done) => {
+    if (errors.length) {
+      options["sound-effects"] && soundEffects.play("error");
+      // It'll get textually output regardless, but..
+      errors.forEach((err) => {
+        if (err.error && err.error.name) {
+          error(`${"[error]".padEnd(9)} ${err.error.name}`);
+        }
+      });
+    }
+    return done();
+  });
+
   // Watch - upload and browser refresh
   chokidar
     .watch(config.watch, {
