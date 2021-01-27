@@ -42,11 +42,14 @@ const validDirs = [
 // Watch everything within validDirs, by default
 config.watch = config.watch || validDirs.map((d) => `${d}/**/*`);
 
-// Iggnore settings_data.json, by default
+// Ignore settings_data.json, by default
 config.ignore = config.ignore || ["config/settings_data.json"];
 
 // Ignore node_modules, nae matter what
 config.ignore.push("node_modules/**");
+
+// Ignore pesky DS_Stores
+config.ignore.push("**/*.DS_Store");
 
 // Handle CLI arguments, if any
 if (options["delete-entire-theme"]) {
