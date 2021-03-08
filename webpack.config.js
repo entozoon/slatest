@@ -37,7 +37,7 @@ module.exports = (config) => {
         svelte: path.resolve("node_modules", "svelte"),
       },
       extensions: [".es6", ".jsx", ".svelte", ".js"],
-      mainFields: ["main", "browser", "module", "svelte"],
+      mainFields: ["svelte", "browser", "module", "main"], // in order of priority
     },
     watch: false, // initialised later
     watchOptions: {
