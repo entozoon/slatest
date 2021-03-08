@@ -32,8 +32,12 @@ module.exports = (config) => {
     target: "node",
     entry: entryPaths,
     resolve: {
-      modules: [path.resolve(cwd, `node_modules`), path.resolve(cwd, `assets`)],
-      extensions: [`.es6`, `.jsx`, ".js"],
+      modules: [path.resolve(cwd, `node_modules`), path.resolve(cwd, "assets")],
+      alias: {
+        svelte: path.resolve("node_modules", "svelte"),
+      },
+      extensions: [".es6", ".jsx", ".svelte", ".js"],
+      mainFields: ["main", "browser", "module", "svelte"],
     },
     watch: false, // initialised later
     watchOptions: {
@@ -88,6 +92,11 @@ module.exports = (config) => {
             },
             "sass-loader",
           ],
+        },
+        {
+          test: /\.(svelte)$/,
+          // exclude: /node_modules/,
+          use: "svelte-loader",
         },
         // ES6/JS/JSX => JS vanilla
         {
