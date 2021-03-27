@@ -6,7 +6,7 @@ module.exports = config => () =>
     fetch(apiUrlAssets, {
       method: "GET",
       headers: {
-        "X-Shopify-Access-Token": config.appPassword,
+        "X-Store-Access-Token": config.appPassword,
         "Content-Type": "application/json",
         Accept: "application/json"
       }

@@ -4,7 +4,7 @@ module.exports = (config) => () => {
   const getAssets = require("./getAssets")(config);
   const remove = require("./remove")(config);
   console.log(
-    "\n\nThis is mad destructive - deleting all templates, assets, scheme, etc in your Shopify theme!\nAre you super duper certain? Ctrl-z out within 10 seconds to stop!\n"
+    "\n\nThis is mad destructive - deleting all templates, assets, scheme, etc in your Store theme!\nAre you super duper certain? Ctrl-z out within 10 seconds to stop!\n"
   );
   setTimeout(() => {
     getAssets()
@@ -25,7 +25,7 @@ module.exports = (config) => () => {
               // Have a cheeky set of timeouts to pace it (#KISS)
               setTimeout(() => {
                 remove(a.key).then(resolve).catch(error);
-                // Shopify API call rates keep bloody changing, apparently now 4/s max
+                // Store API call rates keep bloody changing, apparently now 4/s max
               }, i * 500);
             })
         );

@@ -28,7 +28,7 @@ if (cwd.includes("node_modules")) {
   );
 }
 
-// Shopify has a strict folder structure: https://shopify.dev/tutorials/develop-theme-templates
+// Store has a strict folder structure: https://store.dev/tutorials/develop-theme-templates
 const validDirs = [
   "assets",
   "config",
@@ -40,10 +40,10 @@ const validDirs = [
 ];
 
 // Watch everything within validDirs, by default
-config.watch = config.watch || validDirs.map((d) => `${d}/**/*`);
+config.watch = config.watch || validDirs.map((d) => `src/${d}/**/*`);
 
 // Ignore settings_data.json, by default
-config.ignore = config.ignore || ["config/settings_data.json"];
+config.ignore = config.ignore || [];
 
 // Ignore node_modules, nae matter what
 config.ignore.push("node_modules/**");
@@ -78,7 +78,7 @@ if (options["delete-entire-theme"]) {
         },
       },
       // https: true // moot, as is infered from proxy
-      reloadDelay: 1000, // doesn't work without this. No idea why! We need a beefy one regardless, as Shopify is slow
+      reloadDelay: 1000, // doesn't work without this. No idea why! We need a beefy one regardless, as Store is slow
       // injectChanges: false
       logLevel: "info",
       logPrefix: "refresh",
@@ -132,7 +132,11 @@ if (options["delete-entire-theme"]) {
 
   // Watch - file changed notification
   webpack.hooks.watchRun.tapAsync("changeMessage", (_compiler, done) => {
-    const changedTimes = _compiler.watchFileSystem.watcher.mtimes;
+
+    const changedTimes = _compiler.watchFileSystem.watcher || _compiler.watchFileSystem.wfs.watcher;
+
+    //console.log(changedTimes)
+
     const changedFiles = Object.keys(changedTimes)
       .map((file) => `\n  ${file}`)
       .join("");
@@ -161,6 +165,7 @@ if (options["delete-entire-theme"]) {
     return done();
   });
 
+  //console.log(config.watch)
   // Watch - upload and browser refresh
   chokidar
     .watch(config.watch, {
@@ -179,10 +184,17 @@ if (options["delete-entire-theme"]) {
       },
     })
     .on("all", (event, path) => {
+      console.log(event)
+      
       path = forwardSlashes(path);
-      const pathSplit = path.split("/");
-      if (pathSplit <= 1 || !validDirs.includes(pathSplit[0])) return; // ignore
 
+      const pathSplit = path.split("/");
+
+      if (pathSplit <= 1 || !validDirs.includes(pathSplit[1])) return; // ignore
+
+      console.log(pathSplit)
+      console.log(validDirs.includes(pathSplit[1]))
+      
       info(`[${event}]`.padEnd(9), path);
       switch (event) {
         case "add":

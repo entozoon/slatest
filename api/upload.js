@@ -3,13 +3,15 @@ const fs = require("fs");
 const { success, assetKey } = require("../lib/utils");
 
 const uploadFileContents = (config, filepath, contents, resolve, reject) => {
+  console.log(assetKey(filepath))
+
   let asset = {
     key: assetKey(filepath),
   };
   // There's no information really about whether it should use attachment,
   // with base64 encoded data, or just value with a string as suggested for .liquid
   // Attachment works for both though, and we have contents readily base64 encoded so let's use it
-  // https://help.shopify.com/en/api/reference/online-store/asset
+  // https://help.store.com/en/api/reference/online-store/asset
   // const filetype = filepath.split(".").pop();
   // if (filetype === "liquid") {
   //   asset.value = contents;
@@ -24,7 +26,7 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
     fetch(apiUrlAssets, {
       method: "PUT",
       headers: {
-        "X-Shopify-Access-Token": config.appPassword,
+        "X-Store-Access-Token": config.appPassword,
         "Content-Type": "application/json",
         Accept: "application/json",
       },
@@ -40,7 +42,7 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
           if (r.status == 404) {
             // This should be a proper dir check really..
             errorText =
-              "Couldn't find appropriate place within Shopify. Is your directory definitely one of these:\nlayout, templates, sections, snippets, assets, config, locales ?";
+              "Couldn't find appropriate place within Store. Is your directory definitely one of these:\nlayout, templates, sections, snippets, assets, config, locales ?";
           }
           return reject(`[ERROR] ${filepath} : ${errorText}`);
         }
@@ -55,7 +57,7 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
         reject(e);
       })
       .then((r) => {
-        // Reject if there's a more shopify-y error, such as missing liquid tags or schema problems
+        // Reject if there's a more store-y error, such as missing liquid tags or schema problems
         if (r.errors) {
           return reject(`\n[ERROR] ${filepath} :\n${JSON.stringify(r.errors)}`);
         }

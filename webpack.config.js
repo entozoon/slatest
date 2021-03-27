@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { cwd } = require("./lib/utils");
 
 const entryPathsDefaults = {
-  "app.compiled": ["./src/scss/app.scss", "./src/es6/app.es6"],
+  "app.compiled": ["./src/styles/theme.scss"],
 };
 
 module.exports = (config) => {
@@ -44,7 +44,7 @@ module.exports = (config) => {
       ignored: /node_modules/,
     },
     output: {
-      path: path.resolve(cwd, "assets"),
+      path: path.resolve(cwd, "src/assets"),
     },
     // Use a hidden devServer to compile stuff, for dev purposes at least, as it's more efficient (does partial compiles)
     devServer: {
@@ -80,17 +80,9 @@ module.exports = (config) => {
         {
           test: /\.(scss|css)$/,
           use: [
-            MiniCssExtractPlugin.loader,
-            "css-loader",
-            {
-              loader: "postcss-loader",
-              options: {
-                config: {
-                  path: __dirname,
-                },
-              },
-            },
-            "sass-loader",
+            { loader: MiniCssExtractPlugin.loader },
+            { loader: require.resolve("css-loader") , options: { url: false, importLoaders: 1 } },
+            { loader: require.resolve("sass-loader") } 
           ],
         },
         {

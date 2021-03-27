@@ -1,45 +1,31 @@
-# Slatest
+# slaty
 
-🛒 Shopify theme development toolkit
-
-## Why?
-
-Well, [Slate](https://github.com/Shopify/slate/) is Shopify's toolkit but [absurdly discontinued](https://github.com/Shopify/slate/issues/1020), and [Slater](https://github.com/the-couch/slater) is a proposed alternative - but not nearly as stable as is made out. For example, it [doesn't work on Windows](https://github.com/the-couch/slater/issues/11) and I've [made efforts](https://github.com/the-couch/slater/pull/63) to repair it but it might be a lost cause. Also the monorepo structure is an absolute nightmare to work with, in my opinion, such as how you could never npm install a fork to test it.
-
-Aaaanyways.. TL;DR we need various simple features for a productive workflow:
-
-- ✔ Template and asset sync with Shopify
-- ✔ Live reloading (HMR style refresh through a local proxy) [disabled by default]
-- ✔ .SCSS -> .CSS compilation
-- ✔ .ES6 -> JS compilation
-- ✔ Wipe the entire theme's assets
-- ✔ Upload an entire theme (with checksums to save time)
-- ❌ Template (this project only contains the tools for development, not a theme)
+🛒 Store theme development toolkit
 
 ## Usage
 
-Here is an [**example project**](https://github.com/entozoon/slatest-example), showing the installation and a typical directory structure, if that helps but what you do is:
+Install
 
-    npm i slatest
+    npm i slaty --save-dev
 
-Create a `slatest.config.json` file in your project root along the lines of:
+Create a `slaty.config.json` file in your project root along the lines of:
 
 ```json
 {
   "themeId": "11111111111",
   "appPassword": "66666666666666666666666666666666",
-  "store": "my-store-name.myshopify.com",
+  "store": "my-store-name.mystore.com",
   "port": 3030
 }
 ```
 
-You will need to create a new theme in the Shopify admin, and get it's ID from the URL for your themeId value. Also, create a new private app with 'Theme templates and theme assets' permissions set to `Read and write` then use its password as your appPassword value.
+You will need to create a new theme in the Store admin, and get it's ID from the URL for your themeId value. Also, create a new private app with 'Theme templates and theme assets' permissions set to `Read and write` then use its password as your appPassword value.
 
 Add yourself some `package.json` scripts such as:
 
 ```json
-"start": "slatest",
-"upload-entire-theme": "slatest --upload-entire-theme"
+"start": "slaty",
+"deploy": "slaty --upload-entire-theme"
 ```
 
 And fire it up!
@@ -50,19 +36,13 @@ And fire it up!
 
 When you first start a project, you possibly want to dump an entire theme into the project and have it upload. You can do so by running:
 
-    npm run upload-entire-theme
+    npm run deploy
 
 It's a little intense and takes a while, so I wouldn't recommend doing it on the regular.
 
-Please note, this will not upload the `settings_data.json` - for safety reasons, as it contains all of your site's customisations. If you really are starting from scratch and want to upload it, find your theme's 'Edit code' button in the Shopify admin and paste the contents manually.
+Please note, this will not upload the `settings_data.json` - for safety reasons, as it contains all of your site's customisations. If you really are starting from scratch and want to upload it, find your theme's 'Edit code' button in the Store admin and paste the contents manually.
 
 You may also wish to delete everything, which is possible - see CLI commands below.
-
-## About what are you talking, Willis?
-
-Have a look at the demo:
-
-### [Example project](https://github.com/entozoon/slatest-example).
 
 ### Ignoring
 
@@ -70,7 +50,7 @@ You might want to `.gitignore` your `assets/*.compiled.*` files in your project,
 
 ### Structuring
 
-Your directory wants typical Shopify theme directories and an `/src/scss/app.scss` file gets compiled to `/assets/app.compiled.css` which is, in turn, uploaded. Similarly, with `/src/es6/app.es6`.
+Your directory wants typical Store theme directories and an `/src/scss/app.scss` file gets compiled to `/assets/app.compiled.css` which is, in turn, uploaded. Similarly, with `/src/es6/app.es6`.
 
     ┌──assets
     ├──config
@@ -89,28 +69,9 @@ Your directory wants typical Shopify theme directories and an `/src/scss/app.scs
 
 You can write typical ES6, with imports and whatnot, or even .JSX files with Inferno or whatever and it'll be compiled into vanilla JS (IE11+). NB: You'll still need [polyfills](https://polyfill.io/) if you are indeed injecting Reacty stuff while supporting IE.
 
-## Multiple Developers?
-
-The inherent problem is that, when editing a file, it automatically uploads it to your site. So if multiple people are working on the same _theme_, it'll go haywire.
-
-SO, the solution (thanks to a [friend](https://github.com/chrisfoster78)) is to:
-
-- Duplicate your theme in the Shopify admin
-- In `package.json`, add commands with a `config` parameter that'll make it use a custom version of the config file. i.e.
-
-```json
-    "start:jeff": "slatest --config slatest.config.jeff.json",
-```
-
-- Create this `slatest.config.jeff.json` file, changing the `themeId` value to target your duplicated theme
-
-### If you're a Shopify Partner
-
-Creating a [whole new dev store](https://help.shopify.com/en/partners/dashboard/development-stores) is an even safer alternative, if possible, with a separate (entirely different) config file.
-
 ## Different compilation entry points?
 
-If you want to compile different entry points than `app.scss` and `app.js`, add an `entryPaths` value to your `slatest.config.json` along the lines of:
+If you want to compile different entry points than `app.scss` and `app.js`, add an `entryPaths` value to your `slaty.config.json` along the lines of:
 
 ```json
   "entryPaths": {
@@ -120,8 +81,6 @@ If you want to compile different entry points than `app.scss` and `app.js`, add 
 ```
 
 ## Stop watching directories or ignore certain files?
-
-By default it watches all files in the typical [theme structure](https://shopify.dev/tutorials/develop-theme-templates) and ignores `config/settings_data.json` but, for whatever reason, you could change all that by modifying your `slatest.config.json` with something like:
 
 ```json
 {

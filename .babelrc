@@ -12,7 +12,6 @@
   ],
   "plugins": [
     "babel-plugin-syntax-jsx",
-    "inferno",
     "@babel/plugin-transform-arrow-functions",
     "@babel/plugin-proposal-class-properties"
   ]
