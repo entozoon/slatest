@@ -3,7 +3,7 @@ const fs = require("fs");
 const { success, assetKey } = require("../lib/utils");
 
 const uploadFileContents = (config, filepath, contents, resolve, reject) => {
-  console.log(assetKey(filepath))
+  //console.log(assetKey(filepath))
 
   let asset = {
     key: assetKey(filepath),

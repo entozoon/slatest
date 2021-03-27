@@ -184,7 +184,7 @@ if (options["delete-entire-theme"]) {
       },
     })
     .on("all", (event, path) => {
-      console.log(event)
+      //console.log(event)
       
       path = forwardSlashes(path);
 
@@ -192,8 +192,8 @@ if (options["delete-entire-theme"]) {
 
       if (pathSplit <= 1 || !validDirs.includes(pathSplit[1])) return; // ignore
 
-      console.log(pathSplit)
-      console.log(validDirs.includes(pathSplit[1]))
+      //console.log(pathSplit)
+      //console.log(validDirs.includes(pathSplit[1]))
       
       info(`[${event}]`.padEnd(9), path);
       switch (event) {

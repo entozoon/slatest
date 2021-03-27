@@ -25,7 +25,7 @@ module.exports = (config) => {
       return true;
     });
   }
-  console.log("entryPaths", entryPaths);
+  //console.log("entryPaths", entryPaths);
 
   return {
     mode: "development", // overridden for build
