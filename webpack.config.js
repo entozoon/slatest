@@ -96,7 +96,18 @@ module.exports = (config) => {
         {
           test: /\.(svelte)$/,
           // exclude: /node_modules/,
-          use: "svelte-loader",
+          include: /node_modules/,
+          use: [
+            "babel-loader",
+            {
+              loader: "svelte-loader",
+              options: {
+                // hotReload: true,
+                emitCss: true,
+                configFile: path.resolve(__dirname, `.babelrc`),
+              },
+            },
+          ],
         },
         // ES6/JS/JSX => JS vanilla
         {
