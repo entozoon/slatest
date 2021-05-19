@@ -32,6 +32,7 @@
     "fs-extra": "^9.1.*",
     "glob-to-regexp": "0.4.*",
     "globby": "11.0.*",
+    "liquid-loader": "^0.1.4",
     "md5": "^2.3.0",
     "mini-css-extract-plugin": "^1.4.0",
     "node-fetch": "^2.6.*",
