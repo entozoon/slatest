@@ -82,15 +82,7 @@ module.exports = (config) => {
           use: [
             { loader: MiniCssExtractPlugin.loader },
             { loader: require.resolve("css-loader") , options: { url: false, importLoaders: 1 } },
-            {
-              loader: "liquid-loader",
-              options: {
-                  data: {
-                      test: "prueba"
-                  }
-              }
-            },
-            { loader: require.resolve("sass-loader") } 
+            { loader: require.resolve("liquid-loader"), options: { settingsData: "../config/settings_data.json" } },
           ],
         },
         {
