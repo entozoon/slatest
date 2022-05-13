@@ -1,6 +1,6 @@
 {
   "name": "slatest",
-  "version": "2.4.3",
+  "version": "2.5.0",
   "description": "Shopify theme development toolkit",
   "main": "./bin/slatest.js",
   "bin": {
@@ -36,12 +36,12 @@
     "md5": "^2.3.0",
     "mini-css-extract-plugin": "0.8.*",
     "node-fetch": "2.6.*",
-    "node-sass": "^4.14.1",
     "node-sound-effects": "^1.2.0",
     "node-watch": "0.6.*",
     "null-loader": "3.0.*",
     "open": "^7.0.2",
     "postcss-loader": "3.0.*",
+    "sass": "^1.51.0",
     "sass-loader": "8.0.*",
     "shelljs": "0.8.*",
     "svelte-loader": "^3.0.0",
