@@ -33,7 +33,7 @@ Create a `slatest.config.json` file in your project root along the lines of:
 }
 ```
 
-You will need to create a new theme in the Shopify admin, and get it's ID from the URL for your themeId value. Also, create a new private app with 'Theme templates and theme assets' permissions set to `Read and write` then use its password as your appPassword value.
+You will need to create a new theme in the Shopify admin, and get it's ID from the URL for your themeId value. Also, create a new private app with 'Theme templates and theme assets' permissions set to `Read and write` then use its API secret key as your appPassword value.
 
 Add yourself some `package.json` scripts such as:
 
