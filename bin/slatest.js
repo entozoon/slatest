@@ -133,6 +133,7 @@ if (options["delete-entire-theme"]) {
   // Watch - file changed notification
   webpack.hooks.watchRun.tapAsync("changeMessage", (_compiler, done) => {
     const changedTimes = _compiler.modifiedFiles;
+    console.log(":: ~ changedTimes:", changedTimes);
     const changedFiles = Object.keys(changedTimes)
       .map((file) => `\n  ${file}`)
       .join("");
