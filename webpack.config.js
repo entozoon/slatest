@@ -48,11 +48,13 @@ module.exports = (config) => {
     },
     // Use a hidden devServer to compile stuff, for dev purposes at least, as it's more efficient (does partial compiles)
     devServer: {
-      writeToDisk: true, // this is what we're here for
       compress: false,
       open: false, // we don't actually want to see it, so..
-      quiet: false, // ideally true! but there are errors I can't hook into - i.e. if node is updated (causing failedModule node-sass)
-      stats: "errors-only",
+      devMiddleware: {
+        stats: "errors-only",
+        //  quiet: false, // ideally true! but there are errors I can't hook into - i.e. if node is updated (causing failedModule node-sass)
+        writeToDisk: true, // this is what we're here for
+      },
     },
     // optimization: {
     //   namedModules: true,
