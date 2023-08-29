@@ -48,6 +48,9 @@ config.ignore = config.ignore || ["config/settings_data.json"];
 // Ignore node_modules, nae matter what
 config.ignore.push("node_modules/**");
 
+// Ignore webpack/react HMR
+config.ignore.push("**/*.hot-update.*");
+
 // Ignore pesky DS_Stores
 config.ignore.push("**/*.DS_Store");
 
