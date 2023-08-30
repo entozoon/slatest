@@ -32,7 +32,7 @@ const config = (configFilename) => {
 
   return {
     mode: "development", // overridden for build
-    target: "node",
+    target: "web",
     entry: entryPaths,
     resolve: {
       modules: [path.resolve(cwd, `node_modules`), path.resolve(cwd, "assets")],
@@ -62,7 +62,7 @@ const config = (configFilename) => {
     devtool: "inline-source-map",
     // externalsType: "node-commonjs",
     // externalsPresets: { node: true },
-    externalsPresets: { web: true },
+    // externalsPresets: { web: true },
 
     // optimization: {
     //   namedModules: true,
