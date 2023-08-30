@@ -1,4 +1,19 @@
-const options = require("command-line-args")([
+import { forwardSlashes, cwd, info, error } from "../lib/utils.js";
+import configImport from "../lib/config.js";
+import upload from "../api/upload.js";
+import remove from "../api/remove.js";
+import deleteEntireTheme from "../api/deleteEntireTheme.js";
+import uploadEntireTheme from "../api/uploadEntireTheme.js";
+import globToRegExp from "glob-to-regexp";
+import webpackConfigImport from "slatest/webpack.config.js";
+import open from "open";
+import soundEffects from "node-sound-effects";
+import chokidar from "chokidar";
+import browserSync from "browser-sync";
+import Webpack from "webpack";
+import WebpackDevServer from "webpack-dev-server";
+import optionsImport from "command-line-args";
+const options = optionsImport([
   { name: "config", alias: "c", type: String },
   { name: "livereload", alias: "l", type: Boolean },
   { name: "build", alias: "b", type: Boolean },
@@ -6,21 +21,8 @@ const options = require("command-line-args")([
   { name: "upload-entire-theme", alias: "u", type: Boolean },
   { name: "sound-effects", alias: "s", type: Boolean },
 ]);
-const chokidar = require("chokidar");
-const browserSync = require("browser-sync");
-const Webpack = require("webpack");
-const WebpackDevServer = require("webpack-dev-server/lib/Server");
-const config = require("../lib/config")(options.config);
-const { forwardSlashes, cwd, info, error } = require("../lib/utils");
-const upload = require("../api/upload")(config);
-const remove = require("../api/remove")(config);
-const deleteEntireTheme = require("../api/deleteEntireTheme")(config);
-const uploadEntireTheme = require("../api/uploadEntireTheme")(config);
-const globToRegExp = require("glob-to-regexp");
-const webpackConfig = require("../webpack.config.js")(config);
-const open = require("open");
-const soundEffects = require("node-sound-effects");
-
+const config = configImport(options.config);
+const webpackConfig = webpackConfigImport(config);
 // Catch init from wrong dir
 if (cwd.includes("node_modules")) {
   throw new Error(
@@ -56,9 +58,9 @@ config.ignore.push("**/*.DS_Store");
 
 // Handle CLI arguments, if any
 if (options["delete-entire-theme"]) {
-  deleteEntireTheme();
+  deleteEntireTheme(config);
 } else if (options["upload-entire-theme"]) {
-  uploadEntireTheme();
+  uploadEntireTheme(config);
 } else if (options["build"]) {
   webpackConfig.mode = "production";
   // Webpack instance
@@ -129,9 +131,12 @@ if (options["delete-entire-theme"]) {
   // );
 
   // Webpack dev server - wrangled to compile and output SCSS/JS/etc on change (more efficient for dev)
-  const server = new WebpackDevServer(webpack, webpackConfig.devServer);
+  const server = new WebpackDevServer(webpackConfig.devServer, webpack);
   // We need to specify a port in a more intelligent way really, or retry until it finds one, even though it's a hidden service
-  server.listen(config.port ? config.port + 100 : 8989, "127.0.0.1", () => {});
+  // server.listen(config.port ? config.port + 100 : 8989, "127.0.0.1", () => {});
+  // Listen is deprecated, so use start instead
+  // Port is passed via webpacConfig now I reckon but sack it off for now as it only matters when running multiple projects which is rare
+  server.start();
 
   // Watch - file changed notification
   webpack.hooks.watchRun.tapAsync("changeMessage", (_compiler, done) => {
@@ -192,7 +197,7 @@ if (options["delete-entire-theme"]) {
         case "add":
         case "change":
           options["sound-effects"] && soundEffects.play("change");
-          upload(path)
+          upload(config, path)
             .catch((err) => {
               options["sound-effects"] && soundEffects.play("error");
               error(err);
@@ -203,7 +208,7 @@ if (options["delete-entire-theme"]) {
             }); // <- Could target different filetypes depending on the event..
           break;
         case "unlink":
-          remove(path).catch((err) => {
+          remove(config, path).catch((err) => {
             options["sound-effects"] && soundEffects.play("error");
             error(err);
           });

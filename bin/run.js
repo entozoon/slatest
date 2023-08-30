@@ -1,6 +1,8 @@
 #! /usr/bin/env node
-var shell = require("shelljs");
+import shell from "shelljs";
 var cd = "node_modules/slatest/bin/";
+// import path from "path";
+// const cd = path.resolve(__dirname, "../bin/");
 
 // Pass args through to compile script
 let args = "";

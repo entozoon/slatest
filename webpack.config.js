@@ -1,13 +1,16 @@
-const fs = require("fs");
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { cwd } = require("./lib/utils");
-
+import fs from "fs";
+import path from "path";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { cwd } from "slatest/lib/utils.js";
+import * as sass from "sass";
 const entryPathsDefaults = {
   "app.compiled": ["./src/scss/app.scss", "./src/es6/app.es6"],
 };
-
-module.exports = (config) => {
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+//
+const config = (configFilename) => {
   // Our to-be-compiled entry paths
   let entryPaths = entryPathsDefaults;
   if (config.entryPaths) {
@@ -56,6 +59,11 @@ module.exports = (config) => {
         writeToDisk: true, // this is what we're here for
       },
     },
+    devtool: "inline-source-map",
+    // externalsType: "node-commonjs",
+    // externalsPresets: { node: true },
+    externalsPresets: { web: true },
+
     // optimization: {
     //   namedModules: true,
     //   namedChunks: true,
@@ -85,18 +93,10 @@ module.exports = (config) => {
             MiniCssExtractPlugin.loader,
             "css-loader",
             {
-              loader: "postcss-loader",
-              options: {
-                config: {
-                  path: __dirname,
-                },
-              },
-            },
-            {
               loader: "sass-loader",
               options: {
                 // Prefer `dart-sass`
-                implementation: require("sass"),
+                implementation: sass,
               },
             },
           ],
@@ -142,3 +142,4 @@ module.exports = (config) => {
     ],
   };
 };
+export default config;

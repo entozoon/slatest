@@ -1,13 +1,12 @@
-const { success, error } = require("../lib/utils");
+import { success, error } from "../lib/utils.js";
+import getAssets from "./getAssets.js";
 
-module.exports = (config) => () => {
-  const getAssets = require("./getAssets")(config);
-  const remove = require("./remove")(config);
+const deleteEntireTheme = (config) => {
   console.log(
     "\n\nThis is mad destructive - deleting all templates, assets, scheme, etc in your Shopify theme!\nAre you super duper certain? Ctrl-z out within 10 seconds to stop!\n"
   );
   setTimeout(() => {
-    getAssets()
+    getAssets(config)
       .then((assets) => {
         if (!assets.length) reject("No assets");
 
@@ -24,7 +23,7 @@ module.exports = (config) => () => {
             new Promise((resolve) => {
               // Have a cheeky set of timeouts to pace it (#KISS)
               setTimeout(() => {
-                remove(a.key).then(resolve).catch(error);
+                remove(config, a.key).then(resolve).catch(error);
                 // Shopify API call rates keep bloody changing, apparently now 4/s max
               }, i * 500);
             })
@@ -38,3 +37,4 @@ module.exports = (config) => () => {
       .catch(error);
   }, 10000);
 };
+export default deleteEntireTheme;

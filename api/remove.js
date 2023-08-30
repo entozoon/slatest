@@ -1,18 +1,18 @@
-const fetch = require("node-fetch");
-const { success, assetKey } = require("../lib/utils");
-
-module.exports = config => filepath =>
+import fetch from "node-fetch";
+import { success, assetKey } from "../lib/utils.js";
+import apiUrlAssets from "./apiUrlAssets.js";
+//
+const remove = (config, filepath) =>
   new Promise((resolve, reject) => {
-    const apiUrlAssets = require("./apiUrlAssets")(config);
-    fetch(`${apiUrlAssets}?asset[key]=${assetKey(filepath)}`, {
+    fetch(`${apiUrlAssets(config)}?asset[key]=${assetKey(filepath)}`, {
       method: "DELETE",
       headers: {
         "X-Shopify-Access-Token": config.appPassword,
         "Content-Type": "application/json",
-        Accept: "application/json"
-      }
+        Accept: "application/json",
+      },
     })
-      .then(r => {
+      .then((r) => {
         if (!r.status || r.status != 200) {
           let errorText = r.statusText;
           return reject(
@@ -24,3 +24,4 @@ module.exports = config => filepath =>
       })
       .catch(reject);
   });
+export default remove;

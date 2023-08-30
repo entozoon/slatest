@@ -1,8 +1,9 @@
-const fetch = require("node-fetch");
-const fs = require("fs");
-const md5 = require("md5");
-const globby = require("globby");
-const { success, error } = require("../lib/utils");
+import fetch from "node-fetch";
+import fs from "fs";
+import md5 from "md5";
+import { globby } from "globby";
+import { success, error } from "../lib/utils.js";
+import apiUrlAssets from "./apiUrlAssets.js";
 //
 const generateChecksum = (filepath) => {
   // Shopify's generated checksums are md5 based on utf8 file contents
@@ -17,8 +18,7 @@ const prepareAssets = (assetKeys) =>
       checksum: generateChecksum(key),
     };
   });
-module.exports = (config) => () => {
-  const upload = require("./upload")(config);
+const uploadEntireTheme = (config) => {
   globby(config.watch, {
     ignore: config.ignore,
   })
@@ -27,8 +27,7 @@ module.exports = (config) => () => {
       if (!assetKeys.length) reject("No assets");
       const assetsLocal = prepareAssets(assetKeys);
       // console.log("assetsLocal", assetsLocal);
-      const apiUrlAssets = require("./apiUrlAssets")(config);
-      fetch(apiUrlAssets, {
+      fetch(apiUrlAssets(config), {
         method: "GET",
         headers: {
           "X-Shopify-Access-Token": config.appPassword,
@@ -83,7 +82,7 @@ module.exports = (config) => () => {
             (a, i) =>
               new Promise((resolve) => {
                 setTimeout(() => {
-                  upload(a.key)
+                  upload(config, a.key)
                     .then(resolve)
                     .catch((e) => {
                       e.name = a.name;
@@ -102,3 +101,4 @@ module.exports = (config) => () => {
     })
     .catch(error);
 };
+export default uploadEntireTheme;

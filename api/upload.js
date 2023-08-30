@@ -1,7 +1,8 @@
-const fetch = require("node-fetch");
-const fs = require("fs");
-const { success, assetKey } = require("../lib/utils");
-
+import fetch from "node-fetch";
+import fs from "fs";
+import { success, assetKey } from "../lib/utils.js";
+import apiUrlAssets from "./apiUrlAssets.js";
+//
 const uploadFileContents = (config, filepath, contents, resolve, reject) => {
   let asset = {
     key: assetKey(filepath),
@@ -19,9 +20,8 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
   // Just always using the base64 contents straight from readFile(..., 'base64') :
   asset.attachment = contents;
 
-  const apiUrlAssets = require("./apiUrlAssets")(config);
   return (
-    fetch(apiUrlAssets, {
+    fetch(apiUrlAssets(config), {
       method: "PUT",
       headers: {
         "X-Shopify-Access-Token": config.appPassword,
@@ -69,7 +69,7 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
   );
 };
 
-module.exports = (config) => (filepath) =>
+const upload = (config, filepath) =>
   new Promise((resolve, reject) => {
     // Read the file, and upload the contents
     fs.readFile(filepath, "base64", (err, contents) => {
@@ -89,3 +89,4 @@ module.exports = (config) => (filepath) =>
       }
     });
   });
+export default upload;
