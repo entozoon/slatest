@@ -86,8 +86,7 @@ const uploadEntireTheme = (config) => {
                   upload(config, a.key)
                     .then(resolve)
                     .catch((e) => {
-                      e.name = a.name;
-                      error(e);
+                      error(a.name, e);
                     });
                   // Shopify API call rates keep bloody changing, apparently now 4/s max
                 }, i * 500);
