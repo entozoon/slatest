@@ -1,5 +1,6 @@
 import { success, error } from "../lib/utils.js";
 import getAssets from "./getAssets.js";
+import remove from "./remove.js";
 
 const deleteEntireTheme = (config) => {
   console.log(

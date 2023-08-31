@@ -4,6 +4,7 @@ import md5 from "md5";
 import { globby } from "globby";
 import { success, error } from "../lib/utils.js";
 import apiUrlAssets from "./apiUrlAssets.js";
+import upload from "./upload.js";
 //
 const generateChecksum = (filepath) => {
   // Shopify's generated checksums are md5 based on utf8 file contents
