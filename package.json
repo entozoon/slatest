@@ -39,7 +39,7 @@
     "node-sound-effects": "^1.2.0",
     "node-watch": "0.7.*",
     "null-loader": "^4.0.1",
-    "open": "^9.1.0",
+    "open": "^7.0.3",
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
     "shelljs": "0.8.*",
