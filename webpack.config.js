@@ -58,6 +58,10 @@ const config = (configFilename) => {
         //  quiet: false, // ideally true! but there are errors I can't hook into - i.e. if node is updated (causing failedModule node-sass)
         writeToDisk: true, // this is what we're here for
       },
+      // Disable websocket/HMR stuff as we don't need HMR from this angle for Shopify
+      webSocketServer: false,
+      hot: false,
+      liveReload: false,
     },
     devtool: "inline-source-map",
     // externalsType: "node-commonjs",
