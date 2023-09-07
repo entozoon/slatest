@@ -54,8 +54,6 @@ When you first start a project, you possibly want to dump an entire theme into t
 
 It's a little intense and takes a while, so I wouldn't recommend doing it on the regular.
 
-Please note, this will not upload the `settings_data.json` - for safety reasons, as it contains all of your site's customisations. If you really are starting from scratch and want to upload it, find your theme's 'Edit code' button in the Shopify admin and paste the contents manually.
-
 You may also wish to delete everything, which is possible - see CLI commands below.
 
 ## About what are you talking, Willis?
@@ -89,6 +87,13 @@ Your directory wants typical Shopify theme directories and an `/src/scss/app.scs
 
 You can write typical ES6, with imports and whatnot, or even .JSX files with Inferno or whatever and it'll be compiled into vanilla JS (IE11+). NB: You'll still need [polyfills](https://polyfill.io/) if you are indeed injecting Reacty stuff while supporting IE.
 
+### Key File Ignorance
+
+Certain files are ignored:
+
+- `index.liquid / index.json`, as updating these currently wipes homepage content (currently a Shopify bug circa August '23)
+- `settings_data.json`, as it contains all of your site's default settings and may wipe customisations. If you really are starting from scratch and want to upload it, find your theme's 'Edit code' button in the Shopify admin and paste the contents manually.
+
 ## Multiple Developers?
 
 The inherent problem is that, when editing a file, it automatically uploads it to your site. So if multiple people are working on the same _theme_, it'll go haywire.
@@ -121,7 +126,7 @@ If you want to compile different entry points than `app.scss` and `app.js`, add 
 
 ## Stop watching directories or ignore certain files?
 
-By default it watches all files in the typical [theme structure](https://shopify.dev/tutorials/develop-theme-templates) and ignores `config/settings_data.json` but, for whatever reason, you could change all that by modifying your `slatest.config.json` with something like:
+By default it watches all files in the typical [theme structure](https://shopify.dev/tutorials/develop-theme-templates) and ignores key files but, for whatever reason, you could change all that by modifying your `slatest.config.json` with something like:
 
 ```json
 {

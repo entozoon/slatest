@@ -73,7 +73,7 @@ const upload = (config, filepath) =>
   new Promise((resolve, reject) => {
     // Read the file, and upload the contents
     fs.readFile(filepath, "base64", (err, contents) => {
-      if (err) reject(`[ERROR] ${filepath} : ${err}`);
+      if (err) reject(`[ERROR]   ${filepath} : ${err}`);
       // Upload the file if has contents
       if (contents && contents.length) {
         uploadFileContents(config, filepath, contents, resolve, reject);
