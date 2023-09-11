@@ -10,11 +10,12 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 //
-const config = (configFilename) => {
+const config = (configFile) => {
+  console.log(":: ~ configFile:", configFile);
   // Our to-be-compiled entry paths
   let entryPaths = entryPathsDefaults;
-  if (config.entryPaths) {
-    entryPaths = config.entryPaths;
+  if (configFile.entryPaths) {
+    entryPaths = configFile.entryPaths;
   }
 
   // Resolve paths properly, then strip out any that don't yet exist (as webpack bitches out)
@@ -28,7 +29,7 @@ const config = (configFilename) => {
       return true;
     });
   }
-  console.log("entryPaths", entryPaths);
+  console.log(":: entryPaths", entryPaths);
 
   return {
     mode: "development", // overridden for build
@@ -141,6 +142,8 @@ const config = (configFilename) => {
     },
     plugins: [
       new MiniCssExtractPlugin({
+        // Use full filename include filetype from entryPaths, e.g. app.scss.compiled.css
+        //
         filename: "[name].css",
       }),
     ],
