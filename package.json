@@ -1,6 +1,6 @@
 {
   "name": "slatest",
-  "version": "3.0.9",
+  "version": "3.0.10",
   "description": "Shopify theme development toolkit",
   "main": "./bin/slatest.js",
   "bin": {
