@@ -60,6 +60,9 @@ config.ignore.push("**/*.hot-update.*");
 // Ignore pesky DS_Stores
 config.ignore.push("**/*.DS_Store");
 
+// Ignore pesky LICENSE files
+config.ignore.push("**/*.LICENSE.txt");
+
 // Handle CLI arguments, if any
 if (options["delete-entire-theme"]) {
   deleteEntireTheme(config);
