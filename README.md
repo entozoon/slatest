@@ -33,7 +33,16 @@ Create a `slatest.config.json` file in your project root along the lines of:
 }
 ```
 
-You will need to create a new theme in the Shopify admin, and get it's ID from the URL for your themeId value. Also, create a new private app with 'Theme templates and theme assets' permissions set to `Read and write` in its 'Admin API integration' settings, then in 'API credentials' hit Install Token and use its 'API secret key' as your appPassword value.
+You will need to create a new theme in the Shopify admin, and get it's ID from the customize URL for your themeId value.
+
+Also, find your way to Develop Apps to create a new private app called Slatest with the following.
+
+`Configuration > Admin API integration > Edit`, and enable:
+
+- write_themes
+- read_themes
+
+  `API credentials`, hit _Install Token_ and use its 'API secret key' as your `appPassword` value.
 
 Add yourself some `package.json` scripts such as:
 

@@ -44,8 +44,12 @@ const uploadEntireTheme = (config) => {
           return r.json();
         })
         .then((results) => {
-          const assetsOnline = results.assets;
-          // console.log('assetsOnline', assetsOnline);
+          const assetsOnline = results.assets || [];
+          if (assetsOnline.length == 0) {
+            console.error(
+              "\nNo assets found online, you possibly don't have the correct app permissions or tokens! See README.md\n"
+            );
+          }
           // [ { key: 'assets/foo.jpg',
           // public_url:
           //  'https://cdn.shopify.com/s/files/1/0322/8468/0163/t/3/assets/foo.jpg?v=1604672009',
