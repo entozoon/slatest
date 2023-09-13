@@ -42,7 +42,7 @@ Also, find your way to Develop Apps to create a new private app called Slatest w
 - write_themes
 - read_themes
 
-  `API credentials`, hit _Install Token_ and use its 'API secret key' as your `appPassword` value.
+  `API credentials`, hit _Install Token_ and use its 'Admin API access token' as your `appPassword` value (it used to be 'API secret key', but hey ho)
 
 Add yourself some `package.json` scripts such as:
 
