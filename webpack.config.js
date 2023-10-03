@@ -10,14 +10,13 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 //
-const config = (configFile) => {
-  console.log(":: ~ configFile:", configFile);
+const config = (options) => {
+  console.log(":: ~ webpack options:", options);
   // Our to-be-compiled entry paths
   let entryPaths = entryPathsDefaults;
-  if (configFile.entryPaths) {
-    entryPaths = configFile.entryPaths;
+  if (options.config.entryPaths) {
+    entryPaths = options.config.entryPaths;
   }
-
   // Resolve paths properly, then strip out any that don't yet exist (as webpack bitches out)
   for (let key in entryPaths) {
     entryPaths[key] = entryPaths[key].map((e) => path.resolve(cwd, e));
@@ -29,8 +28,8 @@ const config = (configFile) => {
       return true;
     });
   }
-  console.log(":: entryPaths", entryPaths);
-
+  console.log(":: ~ entryPaths", entryPaths);
+  //
   return {
     mode: "development", // overridden for build
     target: "web",
@@ -68,7 +67,6 @@ const config = (configFile) => {
     // externalsType: "node-commonjs",
     // externalsPresets: { node: true },
     // externalsPresets: { web: true },
-
     // optimization: {
     //   namedModules: true,
     //   namedChunks: true,
@@ -102,6 +100,10 @@ const config = (configFile) => {
               options: {
                 // Prefer `dart-sass`
                 implementation: sass,
+                // Optionally silence deprecation warnings
+                sassOptions: {
+                  quiet: !!options["silent-scss"],
+                },
               },
             },
           ],

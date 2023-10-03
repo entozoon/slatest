@@ -20,8 +20,9 @@ const options = optionsImport([
   { name: "delete-entire-theme", alias: "d", type: Boolean },
   { name: "upload-entire-theme", alias: "u", type: Boolean },
   { name: "sound-effects", alias: "s", type: Boolean },
+  { name: "silent-scss", alias: "ss", type: Boolean },
 ]);
-const config = configImport(options.config);
+const config = configImport(options);
 const webpackConfig = webpackConfigImport(config);
 // Catch init from wrong dir
 if (cwd.includes("node_modules")) {
