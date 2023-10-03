@@ -103,6 +103,7 @@ const config = (options) => {
                 // Optionally silence deprecation warnings
                 sassOptions: {
                   quiet: !!options["silent-scss"],
+                  quietDeps: !!options["silent-scss"],
                 },
               },
             },
