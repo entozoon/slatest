@@ -156,4 +156,4 @@ Here are all the CLI options.
 | `--upload-entire-theme` | `-u`      | **[DANGER]** Upload all the theme files to your site, overwriting everything!                                                             |
 | `--delete-entire-theme` | `-d`      | **[DANGER]** Delete all the theme files. Rarely useful, except when starting a site truly from scratch.                                   |
 | `--sound-effects`       | `-s`      | Enable sound effects, e.g. on successful upload                                                                                           |
-| `--silent-scss`       | `-ss`      | Silence SCSS deprecation warnings                                                                                          |
+| `--silent-scss`         | `-i`      | Silence SCSS deprecation warnings                                                                                                         |
