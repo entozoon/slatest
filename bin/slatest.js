@@ -23,7 +23,7 @@ const options = optionsImport([
   { name: "silent-scss", alias: "i", type: Boolean },
 ]);
 const config = configImport(options.config);
-const webpackConfig = webpackConfigImport(config);
+const webpackConfig = webpackConfigImport({ ...config, options });
 // Catch init from wrong dir
 if (cwd.includes("node_modules")) {
   throw new Error(
