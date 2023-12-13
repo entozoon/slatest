@@ -17,8 +17,8 @@ const options = optionsImport([
   { name: "config", alias: "c", type: String },
   { name: "livereload", alias: "l", type: Boolean },
   { name: "build", alias: "b", type: Boolean },
-  { name: "delete-entire-theme", alias: "d", type: Boolean },
-  { name: "upload-entire-theme", alias: "u", type: Boolean },
+  { name: "delete-theme", alias: "d", type: Boolean },
+  { name: "upload-theme", alias: "u", type: Boolean },
   { name: "sound-effects", alias: "s", type: Boolean },
   { name: "silent-scss", alias: "i", type: Boolean },
 ]);
@@ -65,9 +65,12 @@ config.ignore.push("**/*.DS_Store");
 config.ignore.push("**/*.LICENSE.txt");
 
 // Handle CLI arguments, if any
-if (options["delete-entire-theme"]) {
+if (options["delete-theme"]) {
   deleteEntireTheme(config);
-} else if (options["upload-entire-theme"]) {
+} else if (options["upload-theme"]) {
+  uploadEntireTheme(config);
+} else if (options["upload-theme-exhaustive"]) {
+  config.exhaustive = true;
   uploadEntireTheme(config);
 } else if (options["build"]) {
   webpackConfig.mode = "production";

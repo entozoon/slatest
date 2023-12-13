@@ -61,20 +61,22 @@ const uploadEntireTheme = (config) => {
           // theme_id: 28102653439 }, ... ]
           // console.log(assetsLocal);
           //
-          let assetsChanged = assetsLocal.filter((assetLocal) => {
-            return !assetsOnline.find((assetOnline) => {
-              return (
-                assetLocal.key == assetOnline.key &&
-                assetLocal.checksum == assetOnline.checksum
-              );
+          let assetsChanged =
+            config.exhaustive ||
+            assetsLocal.filter((assetLocal) => {
+              return !assetsOnline.find((assetOnline) => {
+                return (
+                  assetLocal.key == assetOnline.key &&
+                  assetLocal.checksum == assetOnline.checksum
+                );
+              });
             });
-          });
           // console.log("Matches???", assetsChanged);
           console.log("Assets local", assetsLocal.length);
           console.log("Assets online", assetsOnline.length);
           console.log("Assets changed", assetsChanged.length);
           console.log(
-            "(If lots get stuck as changed, consider running delete-entire-theme and trying again, as checksums were only added late 2020. That said, there may be a few malingerers regardless)"
+            "(If lots get stuck as changed, consider running delete-theme and trying again, as checksums were only added late 2020. That said, there may be a few malingerers regardless)"
           );
           console.log(
             `\nUploading ${

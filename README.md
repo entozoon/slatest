@@ -48,7 +48,7 @@ Add yourself some `package.json` scripts such as:
 
 ```json
 "start": "slatest",
-"upload-entire-theme": "slatest --upload-entire-theme"
+"upload-theme": "slatest --upload-theme"
 ```
 
 And fire it up!
@@ -59,7 +59,7 @@ And fire it up!
 
 When you first start a project, you possibly want to dump an entire theme into the project and have it upload. You can do so by running:
 
-    npm run upload-entire-theme
+    npm run upload-theme
 
 It's a little intense and takes a while, so I wouldn't recommend doing it on the regular.
 
@@ -148,12 +148,13 @@ By default it watches all files in the typical [theme structure](https://shopify
 
 Here are all the CLI options.
 
-| Parameter               | Shorthand | What it do                                                                                                                                |
-| ----------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `--config "filename"`   | `-c`      | Use a specified JSON config file.                                                                                                         |
-| `--livereload`          | `-l`      | Enable live reload [**disabled by default** - as not everyone likes it, and it's buggy with certain plugins that domain check your site]. |
-| `--build`               | `-b`      | Perform a one-off build, as opposed to it's default watch behaviour with nice minified output and whathaveyou.                            |
-| `--upload-entire-theme` | `-u`      | **[DANGER]** Upload all the theme files to your site, overwriting everything!                                                             |
-| `--delete-entire-theme` | `-d`      | **[DANGER]** Delete all the theme files. Rarely useful, except when starting a site truly from scratch.                                   |
-| `--sound-effects`       | `-s`      | Enable sound effects, e.g. on successful upload                                                                                           |
-| `--silent-scss`         | `-i`      | Silence SCSS deprecation warnings                                                                                                         |
+| Parameter                   | Shorthand | What it do                                                                                                                                |
+| --------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `--config "filename"`       | `-c`      | Use a specified JSON config file.                                                                                                         |
+| `--livereload`              | `-l`      | Enable live reload [**disabled by default** - as not everyone likes it, and it's buggy with certain plugins that domain check your site]. |
+| `--build`                   | `-b`      | Perform a one-off build, as opposed to it's default watch behaviour with nice minified output and whathaveyou.                            |
+| `--upload-theme`            | `-u`      | **[DANGER]** Upload all the theme files to your site, overwriting everything!                                                             |
+| `--upload-theme-exhaustive` | `-e`      | **[DANGER]** Upload all the theme as above, but skips checksums                                                                           |
+| `--delete-theme`            | `-d`      | **[DANGER]** Delete all the theme files. Rarely useful, except when starting a site truly from scratch.                                   |
+| `--sound-effects`           | `-s`      | Enable sound effects, e.g. on successful upload                                                                                           |
+| `--silent-scss`             | `-i`      | Silence SCSS deprecation warnings                                                                                                         |
