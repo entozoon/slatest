@@ -61,16 +61,17 @@ const uploadEntireTheme = (config) => {
           // theme_id: 28102653439 }, ... ]
           // console.log(assetsLocal);
           //
-          let assetsChanged =
-            !!config.exhaustive ||
-            assetsLocal.filter((assetLocal) => {
-              return !assetsOnline.find((assetOnline) => {
+          let assetsChanged = assetsLocal.filter((assetLocal) => {
+            return (
+              !!config.exhaustive ||
+              !assetsOnline.find((assetOnline) => {
                 return (
                   assetLocal.key == assetOnline.key &&
                   assetLocal.checksum == assetOnline.checksum
                 );
-              });
-            });
+              })
+            );
+          });
           // console.log("Matches???", assetsChanged);
           console.log("Assets local", assetsLocal.length);
           console.log("Assets online", assetsOnline.length);
