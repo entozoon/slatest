@@ -62,7 +62,7 @@ const uploadEntireTheme = (config) => {
           // console.log(assetsLocal);
           //
           let assetsChanged =
-            config.exhaustive ||
+            !!config.exhaustive ||
             assetsLocal.filter((assetLocal) => {
               return !assetsOnline.find((assetOnline) => {
                 return (
