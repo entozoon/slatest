@@ -19,6 +19,7 @@ const options = optionsImport([
   { name: "build", alias: "b", type: Boolean },
   { name: "delete-theme", alias: "d", type: Boolean },
   { name: "upload-theme", alias: "u", type: Boolean },
+  { name: "upload-theme-exhaustive", alias: "e", type: Boolean },
   { name: "sound-effects", alias: "s", type: Boolean },
   { name: "silent-scss", alias: "i", type: Boolean },
 ]);
