@@ -51,6 +51,7 @@ config.ignore = config.ignore || [
   "config/settings_data.json",
   "templates/index.liquid",
   "templates/index.json",
+  "**/.gitkeep",
 ];
 
 // Ignore node_modules, nae matter what
