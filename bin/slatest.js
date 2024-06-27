@@ -66,6 +66,9 @@ config.ignore.push("**/*.DS_Store");
 // Ignore pesky LICENSE files
 config.ignore.push("**/*.LICENSE.txt");
 
+// Ignore .obsolete files
+config.ignore.push("**/*.obsolete");
+
 // Handle CLI arguments, if any
 if (options["delete-theme"]) {
   deleteEntireTheme(config);
