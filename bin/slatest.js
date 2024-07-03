@@ -69,6 +69,11 @@ config.ignore.push("**/*.LICENSE.txt");
 // Ignore .obsolete files
 config.ignore.push("**/*.obsolete");
 
+// Shopify API call rates keep bloody changing, apparently now 4/s max
+// Update: Changed yet again to a miserable 40/m (1500ms each)
+// https://shopify.dev/docs/api/admin-rest
+config.apiSpeed = 1400;
+
 // Handle CLI arguments, if any
 if (options["delete-theme"]) {
   deleteEntireTheme(config);

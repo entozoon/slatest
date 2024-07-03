@@ -20,6 +20,7 @@ const prepareAssets = (assetKeys) =>
     };
   });
 const uploadEntireTheme = (config) => {
+  const { apiSpeed } = config;
   globby(config.watch, {
     ignore: config.ignore,
   })
@@ -83,7 +84,7 @@ const uploadEntireTheme = (config) => {
             `\nUploading ${
               assetsChanged.length
             } assets. This will take approximately ${Math.ceil(
-              (assetsChanged.length * 500) / 500 / 60
+              (assetsChanged.length * apiSpeed) / 1000 / 60
             )} minutes..\n\nPlease note, it will not upload theme settings and data schema!\n`
           );
           const uploadAssetsPromises = assetsChanged.map(
@@ -96,8 +97,7 @@ const uploadEntireTheme = (config) => {
                       console.log(a.name);
                       error(e);
                     });
-                  // Shopify API call rates keep bloody changing, apparently now 4/s max
-                }, i * 500);
+                }, i * apiSpeed);
               })
           );
           Promise.all(uploadAssetsPromises)
