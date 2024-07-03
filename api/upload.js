@@ -48,7 +48,7 @@ const uploadFileContents = (config, filepath, contents, resolve, reject) => {
       })
       // Catch upload errors, e.g. wrong URL
       .catch((e) => {
-        if (e.message.contains("Unexpected token < in JSON at position 0")) {
+        if (e?.message?.contains("Unexpected token < in JSON at position 0")) {
           console.log("!! It is possible that your machine is low on RAM !!");
         }
         e.filepath = filepath;
