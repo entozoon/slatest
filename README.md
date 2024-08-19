@@ -101,6 +101,7 @@ You can write typical ES6, with imports and whatnot, or even .JSX files with Inf
 Certain files are ignored:
 
 - `index.liquid / index.json`, as updating these currently wipes homepage content (currently a Shopify bug circa August '23)
+- All `.json` files, as yeah it's wiping theme customisations
 - `settings_data.json`, as it contains all of your site's default settings and may wipe customisations. If you really are starting from scratch and want to upload it, find your theme's 'Edit code' button in the Shopify admin and paste the contents manually.
 
 ## Multiple Developers?
