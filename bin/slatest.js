@@ -22,6 +22,7 @@ const options = optionsImport([
   { name: "upload-theme-exhaustive", alias: "e", type: Boolean },
   { name: "sound-effects", alias: "s", type: Boolean },
   { name: "silent-scss", alias: "i", type: Boolean },
+  { name: "allow-json", alias: "a", type: Boolean },
 ]);
 const config = configImport(options.config);
 const webpackConfig = webpackConfigImport({ config, options });
@@ -51,7 +52,6 @@ config.ignore = config.ignore || [
   "config/settings_data.json",
   "templates/index.liquid",
   "templates/index.json",
-  "**/*.json",
   "**/.gitkeep",
 ];
 
@@ -69,6 +69,11 @@ config.ignore.push("**/*.LICENSE.txt");
 
 // Ignore .obsolete files
 config.ignore.push("**/*.obsolete");
+
+// Ignore .json templates as it currently wipes theme customisations (as they're kinda stored in the files)
+if (!options["allow-json"]) {
+  config.ignore.push("templates/*.json");
+}
 
 // Shopify API call rates keep bloody changing, apparently now 4/s max
 // Update: Changed yet again to a miserable 40/m (1500ms each)

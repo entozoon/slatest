@@ -159,3 +159,4 @@ Here are all the CLI options.
 | `--delete-theme`            | `-d`      | **[DANGER]** Delete all the theme files. Rarely useful, except when starting a site truly from scratch.                                   |
 | `--sound-effects`           | `-s`      | Enable sound effects, e.g. on successful upload                                                                                           |
 | `--silent-scss`             | `-i`      | Silence SCSS deprecation warnings                                                                                                         |
+| `--allow-json`              | `-a`      | Allow JSON template uploading (wipes theme customisations due to a Shopify bug)                                                           |
