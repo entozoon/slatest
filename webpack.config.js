@@ -63,7 +63,7 @@ const config = (options) => {
       hot: false,
       liveReload: false,
     },
-    devtool: "inline-source-map",
+    devtool: !!options["source-maps"] ? "inline-source-map" : false,
     // externalsType: "node-commonjs",
     // externalsPresets: { node: true },
     // externalsPresets: { web: true },

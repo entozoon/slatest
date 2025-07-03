@@ -22,6 +22,7 @@ const options = optionsImport([
   { name: "upload-theme-exhaustive", alias: "e", type: Boolean },
   { name: "sound-effects", alias: "s", type: Boolean },
   { name: "silent-scss", alias: "i", type: Boolean },
+  { name: "source-maps", alias: "o", type: Boolean },
   { name: "allow-json", alias: "a", type: Boolean },
 ]);
 const config = configImport(options.config);
@@ -72,6 +73,7 @@ config.ignore.push("**/*.obsolete");
 
 // Ignore .json templates as it currently wipes theme customisations (as they're kinda stored in the files)
 if (!options["allow-json"]) {
+  // Note this still ignores index.json as it often seems to work fine with index.liquid - they're similarly empty typically
   config.ignore.push("templates/*.json");
 }
 
